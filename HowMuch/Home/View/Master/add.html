@@ -1,0 +1,10 @@
+<div class="page-header">
+    站长添加
+</div>
+<volist name="list" id="vo">
+    {$vo.id}:{$vo.name}<br />
+</volist>
+<form action="{:U('test')}">
+<input type="text" name="name" />
+<input type="submit" class="btn btn-primary" />
+</form>

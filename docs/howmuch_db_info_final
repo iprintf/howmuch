@@ -1,0 +1,144 @@
+"多少钱" 项目：
+    目标：记录所有开支的详细信息，计算出谁给谁多少钱才能平均
+
+
+-----------------------------------------------------------------------
+数据库
+
+    IP  ：2.2.2.2
+    端口：3306
+    用户：howmuch
+    密码：ka4aiGac
+    库名：howmuch
+    编码：utf8
+
+
+    用户信息        -- user
+        ID          -- id   (int)
+        姓名        -- name (char(30))
+        性别        -- sex  (enum: 1, 0)
+        手机        -- cellphone (char(11))
+
+        create table user (
+            id int not null auto_increment,
+            name char(30) not null,
+            sex enum('0', '1') not null,
+            cellphone char(11) not null,
+            primary key(id)
+        )
+
+    商品信息        -- goods
+        ID          -- id   (int)
+        商品名称    -- name (char(50))
+        商品标签    -- label    (char(50))
+        单价        -- unit_price    (decimal(10,2))
+
+        create table goods (
+            id int not null auto_increment,
+            name char(50) not null,
+            label char(50),
+            unit_price decimal(10,2),
+            primary key(id)
+        )
+
+    交易信息        -- transaction
+        ID          -- id   (int)
+        交易名称    -- name (varchar(200))
+        交易总金额  -- total    (decimal(10,2))
+        状态 （记账中, 未结算, 已结算） -- state (enum: 1, 2, 3)
+        参与者  [id:name]...    -- attender (varchar(500))
+        备注        -- comment  (varchar(500))
+        创建时间    -- create_time (datetime)
+        结算时间    -- finish_time (datetime)
+
+        create table transaction (
+            id int not null auto_increment,
+            name varchar(200) not null,
+            total decimal(10,2) not null,
+            state enum('1', '2', '3') not null,
+            attender varchar(500) not null,
+            comment varchar(500),
+            create_time datetime not null,
+            finish_time datetime not null,
+            primary key(id)
+        )
+
+    交易明细信息    -- transaction_detail
+        ID          -- id   (int)
+        所属交易ID  -- tid  (int)
+        商品名称    -- name     (char(50))
+        商品标签    -- label    (char(50))
+        金额        -- total    (decimal(10,2))
+        单价        -- unit_price    (decimal(10,2))
+        数量        -- quantity   (int)
+        所属者 支持多人 [id:name]...    -- owner    (varchar(500))
+
+        create table transaction_detail (
+            id int not null auto_increment,
+            tid int not null,
+            name char(50) not null,
+            label char(50),
+            total decimal(10,2) not null,
+            unit_price decimal(10,2) not null,
+            quantity int not null,
+            owner varchar(500) not null,
+            foreign key(tid) references transaction(id),
+            primary key(id)
+        )
+
+    付款信息        -- payment
+        ID          -- id   (int)
+        所属交易ID  -- tid  (int)
+        付款人      -- payer    (int)
+        付款金额    -- amount    (decimal(10,2))
+
+        create table payment (
+            id int not null auto_increment,
+            tid int not null,
+            payer int not null,
+            amount decimal(10,2) not null,
+            foreign key(tid) references transaction(id),
+            primary key(id)
+        )
+
+    转账信息        -- transfer
+        ID          -- id   (int)
+        所属交易ID  -- tid  (int)
+        付款人      -- sender   (int)
+        收款人      -- receiver (int)
+        付款金额    -- amount   (decimal(10,2))
+        转账时间    -- time (datetime)
+
+        create table transfer (
+            id int not null auto_increment,
+            tid int not null,
+            sender int not null,
+            receiver int not null,
+            amount decimal(10,2) not null,
+            time datetime,
+            foreign key(tid) references transaction(id),
+            primary key(id)
+        )
+
+-----------------------------------------------------------------------
+
+    功能流程：
+        首页：
+            添加交易按钮
+            标签显示记账中 未结算 已结算的交易记录列表
+                记账中列表
+                    点击交易名称弹出明细列表
+                        添加明细
+                        删除明细
+                        结束记账
+                    删除非空交易记录功能
+
+                未结算列表
+                    点击交易名称弹出明细列表
+                        显示统计信息(包括总价，每人承担)
+                        结算按钮
+
+
+        记账
+            交易名称
+

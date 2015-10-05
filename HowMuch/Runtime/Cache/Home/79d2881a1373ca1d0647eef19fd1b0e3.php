@@ -1,0 +1,4 @@
+<?php if (!defined('THINK_PATH')) exit();?><form id="kform_id" name="kform" kajax="true"
+                    action="/howmuch/index.php?s=/Home/Index/add.html" method="post" enctype="multipart/form-data"
+                    target="" class="form-horizontal main_first_row" me=""
+                    ktype="form"  callback="" vay=""><div class="form-group form_element_row "><div class="kyo_group cols-sm-12 cols-md-12 "><div class="page-header kyo_form_group ">添加交易</div></div></div><div class="form-group form_ctrl_btn form_ctrl_btn_down"><button class="btn btn-primary "  url="add"  type="submit" >添加</button>&nbsp;&nbsp;</div></form>

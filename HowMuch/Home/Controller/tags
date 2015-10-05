@@ -1,0 +1,364 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AssistController	AssistController.class.php	/^class AssistController extends ListPage $/;"	c	language:PHP
+EmployeeController	EmployeeController.class.php	/^class EmployeeController extends ListPage$/;"	c	language:PHP
+FinanceController	FinanceController.class.php	/^class FinanceController extends ListPage$/;"	c	language:PHP
+IndexController	IndexController.class.php	/^class IndexController extends Controller$/;"	c	language:PHP
+MainController	MainController.class.php	/^class MainController extends ListPage$/;"	c	language:PHP
+ManageController	ManageController.class.php	/^class ManageController extends ListPage$/;"	c	language:PHP
+MasterController	MasterController.class.php	/^class MasterController extends ListPage$/;"	c	language:PHP
+OperatorController	OperatorController.class.php	/^class OperatorController extends ListPage $/;"	c	language:PHP
+ProxyController	ProxyController.class.php	/^class ProxyController extends ListPage $/;"	c	language:PHP
+PublicController	PublicController.class.php	/^class PublicController extends Controller$/;"	c	language:PHP
+SalesmanController	SalesmanController.class.php	/^class SalesmanController extends ListPage $/;"	c	language:PHP
+SettleDetail	SalesmanController.class.php	/^    public function SettleDetail($type)$/;"	f	language:PHP
+__construct	AssistController.class.php	/^    public function __construct()$/;"	f	language:PHP
+__construct	EmployeeController.class.php	/^    public function __construct()$/;"	f	language:PHP
+__construct	FinanceController.class.php	/^    public function __construct()$/;"	f	language:PHP
+__construct	MainController.class.php	/^    public function __construct()$/;"	f	language:PHP
+__construct	ManageController.class.php	/^    public function __construct()$/;"	f	language:PHP
+__construct	MasterController.class.php	/^    public function __construct()$/;"	f	language:PHP
+__construct	OperatorController.class.php	/^    public function __construct()$/;"	f	language:PHP
+__construct	ProxyController.class.php	/^    public function __construct()$/;"	f	language:PHP
+__construct	PublicController.class.php	/^    public function __construct()$/;"	f	language:PHP
+__construct	SalesmanController.class.php	/^    public function __construct()$/;"	f	language:PHP
+_cardOpCount	PublicController.class.php	/^    public function _cardOpCount($data, $txt)$/;"	f	language:PHP
+_noticeJudge	IndexController.class.php	/^    public function _noticeJudge($name, $num, $info, $ref)$/;"	f	language:PHP
+add_list	FinanceController.class.php	/^    private function add_list($type, $out, $put, $sub = true)$/;"	f	language:PHP
+add_tmp_list	FinanceController.class.php	/^    private function add_tmp_list($out, $put)$/;"	f	language:PHP
+admin	IndexController.class.php	/^        $admin = get_user_info("admin");$/;"	v	language:PHP
+admin	MainController.class.php	/^        $admin = get_user_info("admin");$/;"	v	language:PHP
+admin	MainController.class.php	/^    private $admin;$/;"	v	language:PHP
+admin	PublicController.class.php	/^        $admin = get_user_info("admin");$/;"	v	language:PHP
+admin	PublicController.class.php	/^        $this->admin = get_user_info("admin");$/;"	v	language:PHP
+admin	PublicController.class.php	/^    private $admin;$/;"	v	language:PHP
+aut	AssistController.class.php	/^        $aut = new Form("", array("name" => "filingform"));$/;"	v	language:PHP
+autoUpdateNum	IndexController.class.php	/^    public function autoUpdateNum($ref)$/;"	f	language:PHP
+bank	FinanceController.class.php	/^            $bank = $this->get_bank($pos["bank"], "edit");$/;"	v	language:PHP
+bank_eq_handle	FinanceController.class.php	/^    private function bank_eq_handle(& $pos, $bank)$/;"	f	language:PHP
+bonusLink	FinanceController.class.php	/^    public function bonusLink($data, $txt)    $/;"	f	language:PHP
+bonus_txt	PublicController.class.php	/^        $bonus_txt = array(6 => "续约", 3 => "签单", 5 => "服务", 4 => "增值");$/;"	v	language:PHP
+by	MainController.class.php	/^        $by = I("get.by");$/;"	v	language:PHP
+card	AssistController.class.php	/^            $card = sqlAll("select b.name,u.proxy_sub_name,u.code,c.card,c.bank,c.create_time,c.card_img1$/;"	v	language:PHP
+card	OperatorController.class.php	/^            $card = sqlRow("select eid,bid,opid,bank,card from card where code='".I("post.ccode")."'");$/;"	v	language:PHP
+card	OperatorController.class.php	/^        $card = sqlRow('call M_oper_list(0,10,3, '.$this->uid.', "'.$code.'")');$/;"	v	language:PHP
+cardOpCount	PublicController.class.php	/^    static public function cardOpCount()$/;"	f	language:PHP
+card_all	MainController.class.php	/^        $card_all = sqlAll($/;"	v	language:PHP
+card_code	OperatorController.class.php	/^        $card_code = I("get.code");$/;"	v	language:PHP
+card_key	FinanceController.class.php	/^                $card_key = $this->get_card($pos["prmb"]);$/;"	v	language:PHP
+ci	FinanceController.class.php	/^        $ci = 0;$/;"	v	language:PHP
+closeTime	OperatorController.class.php	/^    public function closeTime()$/;"	f	language:PHP
+code	FinanceController.class.php	/^        $code = "";$/;"	v	language:PHP
+code	OperatorController.class.php	/^        $code = I("get.code");$/;"	v	language:PHP
+commonBriefing	PublicController.class.php	/^    static public function commonBriefing()$/;"	f	language:PHP
+commonReport	PublicController.class.php	/^    static public function commonReport(& $report)$/;"	f	language:PHP
+count	FinanceController.class.php	/^            $count = 0;$/;"	v	language:PHP
+count	FinanceController.class.php	/^        $count = & $this->list_count;$/;"	v	language:PHP
+count	FinanceController.class.php	/^        $count = & $this->temp["count"];$/;"	v	language:PHP
+curtime	FinanceController.class.php	/^            $curtime = getcurtime();$/;"	v	language:PHP
+data	FinanceController.class.php	/^                $data = array();$/;"	v	language:PHP
+data	FinanceController.class.php	/^            $data = array();$/;"	v	language:PHP
+data	MainController.class.php	/^    	$data = new SmallDataList("sub_card_num", "", 0, array("page" => array("size" => 10)));$/;"	v	language:PHP
+data	MainController.class.php	/^            $data = F("imglist");$/;"	v	language:PHP
+data	MainController.class.php	/^            $data = array();$/;"	v	language:PHP
+data	MainController.class.php	/^        $data = new MainPanel("day_profits", "", $/;"	v	language:PHP
+data	MainController.class.php	/^        $data = new MainPanel("day_profits", "",$/;"	v	language:PHP
+data	MainController.class.php	/^        $data = new SmallDataList("nolnkimglist", "", 0);$/;"	v	language:PHP
+data	MainController.class.php	/^        $data = new SmallDataList("sub_day_card", "", 0, array("page" => array("size" => 10)));$/;"	v	language:PHP
+data	OperatorController.class.php	/^            $data = array();$/;"	v	language:PHP
+data	OperatorController.class.php	/^        $data = $obj->field("id")->where("status=0 and ccode='".$code."'")->select();$/;"	v	language:PHP
+data	OperatorController.class.php	/^        $data = new MainPanel("day_profits", "", array("close_num" => 1));$/;"	v	language:PHP
+data	OperatorController.class.php	/^        $data = new SmallDataList("newCardlist", "", 0, array("page" => array("size" => 10)));$/;"	v	language:PHP
+data	OperatorController.class.php	/^        $data = new SmallDataList("posErrlist", "", 0, array("page" => array("size" => 10)));$/;"	v	language:PHP
+data	OperatorController.class.php	/^        $data = new SmallDataList("sosCardlist", "", 0, array("page" => array("size" => 10)));$/;"	v	language:PHP
+data	OperatorController.class.php	/^        $data = sqlRow('call M_oper_list(0,10,4,null,"'.$code.'")');$/;"	v	language:PHP
+data	PublicController.class.php	/^    	$data = new SmallDataList("repaycard", "", 0, array("page" => array("size" => 10)));$/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new MainPanel("cardOp", "", $/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new MainPanel("day_work", "", array("close_num" => 1));$/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new MainPanel("yesterdayincome", "", array("close_num" => 1));$/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new MainPanel("yesterdayop", "", array("close_num" => 1));$/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new MainPanel("yesterdayrepay", "", array("close_num" => 1));$/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new SmallDataList("dispoorcard", "", 0, array("page" => array("size" => 8)));$/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new SmallDataList("posRmb", "", 0, array("page" => array("size" => 12)));$/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new SmallDataList("reapypoor", "", 0, array("page" => array("size" => 10)));$/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new SmallDataList("repaycard", "", 0, array("page" => array("size" => 10)));$/;"	v	language:PHP
+data	PublicController.class.php	/^        $data = new SmallDataList("statementBonusList", "", 0, $/;"	v	language:PHP
+data	SalesmanController.class.php	/^        $data = new MainPanel("sales_rmb_not", "", array("close_num" => 1));$/;"	v	language:PHP
+data	SalesmanController.class.php	/^        $data = new MainPanel("sales_sum_rmb", "", array("close_num" => 1));$/;"	v	language:PHP
+data	SalesmanController.class.php	/^        $data = new SmallDataList("unSettleDetail", "", 0, array("page" => array("size" => 10)));$/;"	v	language:PHP
+data1	OperatorController.class.php	/^        $data1 = new MainPanel("day_profits", "", array("close_num" => 1));$/;"	v	language:PHP
+data_path	MainController.class.php	/^                    $data_path = str_replace("\/", ",", $new_path);$/;"	v	language:PHP
+day	MainController.class.php	/^            $day = $_POST["day_" . $key];$/;"	v	language:PHP
+day	MainController.class.php	/^        $day = date("d");$/;"	v	language:PHP
+day_val	MainController.class.php	/^            $day_val = $this->sqlCol($/;"	v	language:PHP
+dealInfo	OperatorController.class.php	/^    public function dealInfo()$/;"	f	language:PHP
+deal_info_title	OperatorController.class.php	/^    public function deal_info_title($data)$/;"	f	language:PHP
+del	MainController.class.php	/^        $del = I("get.del");$/;"	v	language:PHP
+disImg	MainController.class.php	/^    public function disImg($data, $txt)$/;"	f	language:PHP
+dp	MainController.class.php	/^            $dp = opendir($path);$/;"	v	language:PHP
+end_id	FinanceController.class.php	/^            $end_id = sqlCol("select max(id) from repayment_record where rtype=1 and sid=".$this->sid." and $/;"	v	language:PHP
+err	OperatorController.class.php	/^        $err = new Form("", array("name" => "errform"));$/;"	v	language:PHP
+error	IndexController.class.php	/^    public function error($str = "登录超时或非法登录，请关闭窗口重新登录!")$/;"	f	language:PHP
+excel	AssistController.class.php	/^            $excel = new KyoExcel($title, $card, $xls_path, 1);$/;"	v	language:PHP
+excel	MainController.class.php	/^        $excel = new FormElement("btn_excel", "button", "下载报表", array("icon" => "cloud-download",$/;"	v	language:PHP
+exportExcel	FinanceController.class.php	/^    public function exportExcel()$/;"	f	language:PHP
+fail	AssistController.class.php	/^        $fail = new FormElement("btn_fail", "link", '报备失败', array("url" => U("Assist\/filingFail")."&code=".$data["code"], $/;"	v	language:PHP
+fd	MainController.class.php	/^        $fd = array("basis" => "id_img='[]' or card_img='[]'","card" => "card_img1='[]' or card_img2='[]' or sign_img='[]'","users" => "id_img1='[]' or id_img2='[]' or card_img='[]'","card_type" => "img='[]'","rising" => "img='[]'");$/;"	v	language:PHP
+field	MainController.class.php	/^        $field = array("bank","name","type","amount","update_time");$/;"	v	language:PHP
+field	PublicController.class.php	/^        $field = array("card_2_num" => 0, "card_3_num" => 0, "card_4_num" => 0, "basis_3_num" => 0, "Sos" => 4, $/;"	v	language:PHP
+filepath	AssistController.class.php	/^            $filepath = $root."filing_".date("Y-m-d").".zip";$/;"	v	language:PHP
+filing	AssistController.class.php	/^    public function filing()$/;"	f	language:PHP
+filingFail	AssistController.class.php	/^    public function filingFail($code)$/;"	f	language:PHP
+filingOp	AssistController.class.php	/^    public function filingOp($data)$/;"	f	language:PHP
+filingVerify	AssistController.class.php	/^    public function filingVerify($where)$/;"	f	language:PHP
+fill1	MainController.class.php	/^            $fill1 = $_POST["fill1_" . $key];$/;"	v	language:PHP
+fill1_val	MainController.class.php	/^            $fill1_val = $fill_array ? $fill_array[0]["holiday"] : "";$/;"	v	language:PHP
+fill2	MainController.class.php	/^            $fill2 = $_POST["fill2_" . $key];$/;"	v	language:PHP
+fill2_val	MainController.class.php	/^            $fill2_val = isset($fill_array[1]) ? $fill_array[1]["holiday"] : "";$/;"	v	language:PHP
+fill_array	MainController.class.php	/^            $fill_array = $this->sqlAll($/;"	v	language:PHP
+find	OperatorController.class.php	/^        $find = new Form("", array("name" => "cardfindform", "kajax" => false));$/;"	v	language:PHP
+find	OperatorController.class.php	/^        $find = new Form("", array("name" => "operform", "kajax" => "false"));$/;"	v	language:PHP
+find_card	OperatorController.class.php	/^            $find_card = sqlRow("select opid,sid from card where code='".$code."'");$/;"	v	language:PHP
+form	FinanceController.class.php	/^        $form = new Form("", $/;"	v	language:PHP
+getDirList	MainController.class.php	/^    public function getDirList($path, & $list)$/;"	f	language:PHP
+getDisList	FinanceController.class.php	/^    public function getDisList($excel = "")$/;"	f	language:PHP
+getPop	FinanceController.class.php	/^    static public function getPop($type, $title = "")$/;"	f	language:PHP
+getPop	ManageController.class.php	/^    static public function getPop($type, $title = "")$/;"	f	language:PHP
+getRepayBaseData	FinanceController.class.php	/^    private function getRepayBaseData()$/;"	f	language:PHP
+getVersionID	ManageController.class.php	/^    public function getVersionID($val)$/;"	f	language:PHP
+get_bank	FinanceController.class.php	/^    private function get_bank($find_bank, $flag = "key")$/;"	f	language:PHP
+get_card	FinanceController.class.php	/^    private function get_card($find_rmb)$/;"	f	language:PHP
+hForm	MainController.class.php	/^        $hForm = new Form("", $/;"	v	language:PHP
+holiday	MainController.class.php	/^        $holiday = array();$/;"	v	language:PHP
+holiday	MainController.class.php	/^    public function holiday()$/;"	f	language:PHP
+holiday_handle	MainController.class.php	/^    public function holiday_handle()$/;"	f	language:PHP
+holiday_name	MainController.class.php	/^        $holiday_name = array(1 => "元旦","春节","清明节","劳动节","端午节","中秋节","国庆节");$/;"	v	language:PHP
+html	FinanceController.class.php	/^        $html = PublicController::commonBriefing();$/;"	v	language:PHP
+html	MasterController.class.php	/^        $html = PublicController::commonBriefing();$/;"	v	language:PHP
+html	OperatorController.class.php	/^        $html = "";$/;"	v	language:PHP
+html	OperatorController.class.php	/^        $html = "<tr>";$/;"	v	language:PHP
+html	PublicController.class.php	/^        $html = $data->fetch("今日工作简报");$/;"	v	language:PHP
+html	SalesmanController.class.php	/^        $html = PublicController::cardOpCount();$/;"	v	language:PHP
+i	MainController.class.php	/^            static $i = 0;$/;"	v	language:PHP
+ids	FinanceController.class.php	/^            $ids = explode("(", I("get.where"));$/;"	v	language:PHP
+ids	FinanceController.class.php	/^            $ids = explode(")", $ids[1]);$/;"	v	language:PHP
+ids	FinanceController.class.php	/^            $ids = explode(",", $ids[0]);$/;"	v	language:PHP
+images	MainController.class.php	/^    public function images()$/;"	f	language:PHP
+img	MainController.class.php	/^            $img = str_replace(",", "\/", $row["img"]);$/;"	v	language:PHP
+imgNum	AssistController.class.php	/^            $imgNum = 0;$/;"	v	language:PHP
+imglist	AssistController.class.php	/^            $imglist = array();$/;"	v	language:PHP
+index	AssistController.class.php	/^    public function index()$/;"	f	language:PHP
+index	EmployeeController.class.php	/^    public function index()$/;"	f	language:PHP
+index	FinanceController.class.php	/^    public function index()$/;"	f	language:PHP
+index	IndexController.class.php	/^    public function index()$/;"	f	language:PHP
+index	MainController.class.php	/^    public function index()$/;"	f	language:PHP
+index	ManageController.class.php	/^    public function index()$/;"	f	language:PHP
+index	MasterController.class.php	/^    public function index()$/;"	f	language:PHP
+index	OperatorController.class.php	/^    public function index()$/;"	f	language:PHP
+index	ProxyController.class.php	/^    public function index()$/;"	f	language:PHP
+index	SalesmanController.class.php	/^    public function index()$/;"	f	language:PHP
+info	OperatorController.class.php	/^        $info = new Form("", array("cols" => "2"));$/;"	v	language:PHP
+info	OperatorController.class.php	/^        $info = new Form("", array("name" => "cardinfoform"));$/;"	v	language:PHP
+isParse	FinanceController.class.php	/^        $isParse = sqlAll("select id from repayment_record where rtype=1 and sid=".$sid." and$/;"	v	language:PHP
+js	AssistController.class.php	/^        $js = '$.ajax({url:"'.U("KyoCommon\/Message\/index").'", async:true, dataType:"html", $/;"	v	language:PHP
+js	MainController.class.php	/^                $js = "";$/;"	v	language:PHP
+judgeCardStatus	OperatorController.class.php	/^    public function judgeCardStatus($code, & $card)$/;"	f	language:PHP
+kyo_sort	FinanceController.class.php	/^    private function kyo_sort(& $array, $name, $sort = "small")$/;"	f	language:PHP
+len	FinanceController.class.php	/^        $len = count($array);$/;"	v	language:PHP
+list	FinanceController.class.php	/^            $list = session("temp_data");$/;"	v	language:PHP
+list	FinanceController.class.php	/^        $list = & $this->repaylist;$/;"	v	language:PHP
+list	FinanceController.class.php	/^        $list = & $this->temp["list"];$/;"	v	language:PHP
+list	MainController.class.php	/^        $list = array();$/;"	v	language:PHP
+list	MainController.class.php	/^        $list = sqlAll("select * from card_type");$/;"	v	language:PHP
+list	OperatorController.class.php	/^        $list = new DataList("operlist");$/;"	v	language:PHP
+list	OperatorController.class.php	/^        $list = new SmallDataList("card_deal", "pos");$/;"	v	language:PHP
+list_count	FinanceController.class.php	/^    private $list_count = 0;$/;"	v	language:PHP
+lnk	AssistController.class.php	/^        $lnk = new FormElement("btn_img", "link", '查看图片', array("query" => false, "bool" => "kopen",$/;"	v	language:PHP
+lnk	FinanceController.class.php	/^        $lnk = new FormElement("amount_link", "link", $data["card_total_amount"], array($/;"	v	language:PHP
+lockCard	OperatorController.class.php	/^    public function lockCard()$/;"	f	language:PHP
+mail	FinanceController.class.php	/^        $mail = new \\Common\\Controller\\KyoMail();$/;"	v	language:PHP
+msg	OperatorController.class.php	/^            $msg = "操作员 ".get_username($this->uid);$/;"	v	language:PHP
+msg_num	IndexController.class.php	/^        $msg_num = \\KyoCommon\\Controller\\MessageController::getMessage();$/;"	v	language:PHP
+my_data	OperatorController.class.php	/^    	$my_data = $this->setCustomList("M_oper_list",true,array(2, $this->uid, 'null'));$/;"	v	language:PHP
+newCardlist	OperatorController.class.php	/^    public function newCardlist()$/;"	f	language:PHP
+new_path	AssistController.class.php	/^                $new_path = $root.$cd["code"]."\/".$cd["card"].".jpg";$/;"	v	language:PHP
+new_path	MainController.class.php	/^                    $new_path = str_replace(__UP__ . "\/", "", $new_path);$/;"	v	language:PHP
+new_path	MainController.class.php	/^                $new_path = $path . '\/' . $file;$/;"	v	language:PHP
+nlist	MainController.class.php	/^        $nlist = array();$/;"	v	language:PHP
+noLinkImg	MainController.class.php	/^    public function noLinkImg()$/;"	f	language:PHP
+notice	IndexController.class.php	/^        $notice = array("num" => $num, "info" => "");$/;"	v	language:PHP
+notice	IndexController.class.php	/^        $notice = array();$/;"	v	language:PHP
+num	FinanceController.class.php	/^            $num = 0;$/;"	v	language:PHP
+num	PublicController.class.php	/^                $num = sqlCol("call pro_card_duemain(0,99,".$val.",".$this->sid.",null)");$/;"	v	language:PHP
+num	PublicController.class.php	/^                $num = sqlCol("call pro_card_duemain(0,99,".$val.",null,".$this->uid.")");$/;"	v	language:PHP
+obj	FinanceController.class.php	/^            $obj = M("repayment_record");$/;"	v	language:PHP
+obj	MainController.class.php	/^        $obj = M("holiday");$/;"	v	language:PHP
+obj	OperatorController.class.php	/^            $obj = M("pos");$/;"	v	language:PHP
+obj	OperatorController.class.php	/^            $obj = M("transaction");$/;"	v	language:PHP
+obj	OperatorController.class.php	/^        $obj = M("core_disburse");$/;"	v	language:PHP
+obj	PublicController.class.php	/^            $obj = new FormElement($key."_lnk", "link", $num, array("url" => U("Card\/".$url[$val - 1])."&ibody=1", "tag" => "#body"));$/;"	v	language:PHP
+obj	PublicController.class.php	/^        $obj = new FormElement("pos_lnk", "link", sqlCol("call pro_card_balance(0, 99, NULL, NULL, 4, ".$this->sid.", NULL, NULL);"), $/;"	v	language:PHP
+obj	PublicController.class.php	/^        $obj = new FormElement("pos_lnk", "link", sqlCol("select count(id) from pos where sid=".$this->sid." and status=".ERROR), $/;"	v	language:PHP
+old_id	FinanceController.class.php	/^            $old_id = $out["id"];$/;"	v	language:PHP
+old_id	FinanceController.class.php	/^        $old_id = & $this->temp["id"];$/;"	v	language:PHP
+opPoorCard	PublicController.class.php	/^    public function opPoorCard()$/;"	f	language:PHP
+opdate	FinanceController.class.php	/^        $opdate = date("Y-m-d");$/;"	v	language:PHP
+operCardNum	PublicController.class.php	/^    public function operCardNum()$/;"	f	language:PHP
+oper_deal_list	OperatorController.class.php	/^    public function oper_deal_list()$/;"	f	language:PHP
+oper_deal_report	OperatorController.class.php	/^    public function oper_deal_report()$/;"	f	language:PHP
+parseImgList	MainController.class.php	/^    public function parseImgList()$/;"	f	language:PHP
+parseRepayList	FinanceController.class.php	/^    private function parseRepayList()$/;"	f	language:PHP
+path	AssistController.class.php	/^                $path = __UP__.str_replace(",", "\/", $cd["card_img1"]);$/;"	v	language:PHP
+path	AssistController.class.php	/^        $path = __UP__.str_replace(",", "\/", $data["card_img1"]);$/;"	v	language:PHP
+pay	MainController.class.php	/^    public function pay()$/;"	f	language:PHP
+pdata	FinanceController.class.php	/^    private $pdata = array();$/;"	v	language:PHP
+pdatalen	FinanceController.class.php	/^    private $pdatalen = array("bank" => 0,"pos" => 100,"card" => 30);$/;"	v	language:PHP
+perm	PublicController.class.php	/^        $perm = array(3 => 10, 1 => 11, 6 => 12);$/;"	v	language:PHP
+pop	FinanceController.class.php	/^                $pop = "w:1200,h:550,n:'histroy',t:" . $title;$/;"	v	language:PHP
+pop	FinanceController.class.php	/^                $pop = "w:450,h:530,n:'risingInfo',t:" . $title;$/;"	v	language:PHP
+pop	FinanceController.class.php	/^                $pop = "w:820,h:450,c:1,n:'bonuswin',t:" . $title;$/;"	v	language:PHP
+pop	FinanceController.class.php	/^                $pop = "w:820,h:450,c:1,n:'repay',t:" . $title;$/;"	v	language:PHP
+pop	FinanceController.class.php	/^        $pop = "";$/;"	v	language:PHP
+pop	ManageController.class.php	/^        		$pop = "w:650,h:500,c:1,n:'vedit',t:".$title;$/;"	v	language:PHP
+pop	ManageController.class.php	/^        		$pop = "w:650,h:500,n:'vadd',t:".$title;$/;"	v	language:PHP
+pop	ManageController.class.php	/^        $pop = "";$/;"	v	language:PHP
+pos	OperatorController.class.php	/^            $pos = sqlAll("call Demo_pos_system(1, 10, ".$card["pen"].",".$card["amount"].",".$card["sid"].",\\"".$code."\\",".$card["advice"].");");$/;"	v	language:PHP
+pos	OperatorController.class.php	/^            $pos = sqlRow("select sub_code,proxy,abbr_name,models,shop_id,sid from pos where code='".$data["pcode"]."'");$/;"	v	language:PHP
+pos	OperatorController.class.php	/^        $pos = sqlRow("select sub_code,pay from pos where code='".$code."'");$/;"	v	language:PHP
+posErr	OperatorController.class.php	/^    public function posErr()$/;"	f	language:PHP
+posErrlist	OperatorController.class.php	/^    public function posErrlist()$/;"	f	language:PHP
+posRmbInfo	PublicController.class.php	/^    public function posRmbInfo()$/;"	f	language:PHP
+pos_amount	FinanceController.class.php	/^            $pos_amount = sqlCol("select amount from pos where id=".$value["pos_id"]);$/;"	v	language:PHP
+pos_code	OperatorController.class.php	/^        $pos_code = I("get.pcode");$/;"	v	language:PHP
+pos_pop	OperatorController.class.php	/^    private $pos_pop = "w:1200,h:570,n:'posinfo',b:saveclosetime,t:推荐可用POS机列表";$/;"	v	language:PHP
+put_card	FinanceController.class.php	/^            $put_card = "备付金账户";$/;"	v	language:PHP
+put_card	FinanceController.class.php	/^        $put_card = $value["put_card"];$/;"	v	language:PHP
+recommendPos	OperatorController.class.php	/^    public function recommendPos()$/;"	f	language:PHP
+record	FinanceController.class.php	/^                $record = $list[$id - 1];$/;"	v	language:PHP
+record_txt	MainController.class.php	/^        $record_txt = C("RECORD_TEXT");$/;"	v	language:PHP
+remark	MainController.class.php	/^    public function remark()$/;"	f	language:PHP
+repayCardNum	PublicController.class.php	/^    public function repayCardNum()$/;"	f	language:PHP
+repayPoorCard	PublicController.class.php	/^    public function repayPoorCard()$/;"	f	language:PHP
+repay_type_name	FinanceController.class.php	/^    private $repay_type_name = array("0" => "POS账户","1" => "备付金账户");$/;"	v	language:PHP
+repaylist	FinanceController.class.php	/^            $this->repaylist = sqlAll("select * from repayment_record where rtype=1 and state=1 and$/;"	v	language:PHP
+repaylist	FinanceController.class.php	/^        $this->repaylist = sqlAll("select * from repayment_record where rtype=1 and state=1 and$/;"	v	language:PHP
+repaylist	FinanceController.class.php	/^    private $repaylist = array();$/;"	v	language:PHP
+repayment	FinanceController.class.php	/^    public function repayment()$/;"	f	language:PHP
+repayment_histroy	FinanceController.class.php	/^    public function repayment_histroy()$/;"	f	language:PHP
+repayment_verify	FinanceController.class.php	/^    public function repayment_verify()$/;"	f	language:PHP
+report	FinanceController.class.php	/^        $report = new ReportController();$/;"	v	language:PHP
+report	FinanceController.class.php	/^    public function report()$/;"	f	language:PHP
+report	MainController.class.php	/^        $report = new ReportController();$/;"	v	language:PHP
+report	MainController.class.php	/^    public function report()$/;"	f	language:PHP
+report	MasterController.class.php	/^        $report = new ReportController();$/;"	v	language:PHP
+report	MasterController.class.php	/^    public function report()$/;"	f	language:PHP
+report	SalesmanController.class.php	/^        $report = new ReportController();$/;"	v	language:PHP
+report	SalesmanController.class.php	/^    public function report()$/;"	f	language:PHP
+ret	FinanceController.class.php	/^            $ret = $obj->where("id=".$_POST["id"])->save(array("state" => "0", $/;"	v	language:PHP
+ret	MainController.class.php	/^                    $ret = sqlCol("select id from " . $table[0] . " where " .$/;"	v	language:PHP
+ret	OperatorController.class.php	/^            $ret = $obj->create($data, 1);$/;"	v	language:PHP
+ret	OperatorController.class.php	/^            $ret = save_operating_record($_POST["code"], POS_ERROR);$/;"	v	language:PHP
+return	AssistController.class.php	/^            $return = array("echo" => 1, "close" => 1, "info" => "操作成功!",$/;"	v	language:PHP
+return	OperatorController.class.php	/^            $return = array("echo" => 1, "close" => 1, "info" => "交易成功!",$/;"	v	language:PHP
+return	OperatorController.class.php	/^            $return = array("echo" => 1, "close" => 1, "info" => "操作成功!",$/;"	v	language:PHP
+rmb	OperatorController.class.php	/^        $rmb = I("get.rmb");$/;"	v	language:PHP
+root	AssistController.class.php	/^            $root = "Down\/";$/;"	v	language:PHP
+rows	MainController.class.php	/^            $rows = 3;$/;"	v	language:PHP
+rows	MainController.class.php	/^            $rows = 5;$/;"	v	language:PHP
+rtypeTxt	FinanceController.class.php	/^    private $rtypeTxt = array("签单佣金" => 3, "增值佣金" => 4, "服务佣金" => 5, "续约佣金" => 6);$/;"	v	language:PHP
+s	OperatorController.class.php	/^        $s = array("kclose" => "", "sos" => "hidden", "txt" => "");$/;"	v	language:PHP
+setRowColor	OperatorController.class.php	/^    public function setRowColor($data)$/;"	f	language:PHP
+showDealList	OperatorController.class.php	/^    public function showDealList($div = true)$/;"	f	language:PHP
+sid	FinanceController.class.php	/^        $sid = $this->sid;$/;"	v	language:PHP
+sid	FinanceController.class.php	/^        $this->sid = get_user_info("sid");$/;"	v	language:PHP
+sid	FinanceController.class.php	/^    private $sid;$/;"	v	language:PHP
+sid	OperatorController.class.php	/^        $this->sid = get_user_info("sid");$/;"	v	language:PHP
+sid	OperatorController.class.php	/^    private $sid; $/;"	v	language:PHP
+sid	PublicController.class.php	/^        $sid = get_user_info("sid");$/;"	v	language:PHP
+sid	PublicController.class.php	/^        $this->sid = get_user_info("sid");$/;"	v	language:PHP
+sid	PublicController.class.php	/^    private $sid;$/;"	v	language:PHP
+sid	SalesmanController.class.php	/^        $this->sid = get_user_info("sid");$/;"	v	language:PHP
+sid	SalesmanController.class.php	/^    private $sid;$/;"	v	language:PHP
+sim	OperatorController.class.php	/^        $sim = new Form("", array("name" => "simform"));$/;"	v	language:PHP
+simulation	OperatorController.class.php	/^    public function simulation()$/;"	f	language:PHP
+sort_max	MainController.class.php	/^            $sort_max = 0;$/;"	v	language:PHP
+sort_max	MainController.class.php	/^        $sort_max = $this->sqlCol("select max(sort_id) from pay");$/;"	v	language:PHP
+sort_max	MainController.class.php	/^        $sort_max = $this->sqlCol($/;"	v	language:PHP
+sos	OperatorController.class.php	/^        $sos = new \\Card\\Controller\\SosController();$/;"	v	language:PHP
+sosCardlist	OperatorController.class.php	/^    public function sosCardlist()$/;"	f	language:PHP
+start	MainController.class.php	/^            $start = $_POST["start_" . $key];$/;"	v	language:PHP
+start_val	MainController.class.php	/^            $start_val = $this->sqlCol($/;"	v	language:PHP
+state	FinanceController.class.php	/^                $state = $this->rtypeTxt[$record["state"]];$/;"	v	language:PHP
+state	FinanceController.class.php	/^            $state = sqlCol("select state from repayment_record where id=".$_POST["id"]);$/;"	v	language:PHP
+statement	FinanceController.class.php	/^    public function statement()$/;"	f	language:PHP
+statementBonus	PublicController.class.php	/^    public function statementBonus()$/;"	f	language:PHP
+status	OperatorController.class.php	/^        $status = $this->judgeCardStatus($code, $card);$/;"	v	language:PHP
+str	FinanceController.class.php	/^        $str = $mail->export("当日还款报表", $title, "select CURDATE() as op_date, r.* from repayment_record r where $/;"	v	language:PHP
+sub_card_num	MainController.class.php	/^    public function sub_card_num()$/;"	f	language:PHP
+sub_data	PublicController.class.php	/^        $sub_data = new SmallDataList("yesterdayincome_bonus", "", 0, array("close_num" => 1));$/;"	v	language:PHP
+sub_data	SalesmanController.class.php	/^        $sub_data = new SmallDataList("sales_rmb", "", 0, array("close_num" => 1));$/;"	v	language:PHP
+sub_day_card	MainController.class.php	/^    public function sub_day_card()$/;"	f	language:PHP
+success	AssistController.class.php	/^                        success:function(data)$/;"	j	language:PHP
+surplus_num	IndexController.class.php	/^        	$surplus_num = sqlCol("call pro_card_duemain(0, 99, 7, null, ".get_user_info("uid").")");$/;"	v	language:PHP
+surplus_num	IndexController.class.php	/^        $surplus_num = "";$/;"	v	language:PHP
+table	MainController.class.php	/^                    $table = explode("\/", $new_path);$/;"	v	language:PHP
+temp	FinanceController.class.php	/^                    $temp = $array[$i];$/;"	v	language:PHP
+temp	FinanceController.class.php	/^    private $temp = array("list" => "", "id" => 0, "count" => 0);$/;"	v	language:PHP
+times	OperatorController.class.php	/^        $times = getcurtime();$/;"	v	language:PHP
+title	AssistController.class.php	/^            $title = array("name" => "卡主姓名", "bank" => "发卡行", "card" => "卡号", "code" => "分站代码", "proxy_sub_name" => "所属分站", "create_time" => "录入时间");$/;"	v	language:PHP
+title	FinanceController.class.php	/^                    $title = "佣金明细";$/;"	v	language:PHP
+title	FinanceController.class.php	/^                    $title = "客户增值详细信息";$/;"	v	language:PHP
+title	FinanceController.class.php	/^                    $title = "当日已还列表";$/;"	v	language:PHP
+title	FinanceController.class.php	/^                    $title = "确认还款";$/;"	v	language:PHP
+title	FinanceController.class.php	/^        $title = array("op_date" => "推送日期", "account_type" => "账户类型","out_name" => "划款户名",$/;"	v	language:PHP
+title	FinanceController.class.php	/^        $title = array("username" => "拓展员姓名", "card_num" => "卡片数量", $/;"	v	language:PHP
+title	MainController.class.php	/^        $title = array("发卡银行","卡种名称","卡片类型","授信上限","更新时间");$/;"	v	language:PHP
+title	ManageController.class.php	/^                    $title = "新增更新版本";$/;"	v	language:PHP
+title	ManageController.class.php	/^                    $title = "编辑更新版本信息";$/;"	v	language:PHP
+total	PublicController.class.php	/^        $total = sqlRow("call Report_sub(0, 10, ".$perm[$this->admin].", ".$this->uid.");");$/;"	v	language:PHP
+txt	PublicController.class.php	/^        $txt = $bonus_txt[$typeID];$/;"	v	language:PHP
+type	PublicController.class.php	/^            $type = 4;$/;"	v	language:PHP
+type	PublicController.class.php	/^        $type = 3;$/;"	v	language:PHP
+typeID	PublicController.class.php	/^        $typeID = I("get.typeid");$/;"	v	language:PHP
+type_id	FinanceController.class.php	/^        $type_id = $this->rtypeTxt[$data["state"]];$/;"	v	language:PHP
+type_name	FinanceController.class.php	/^        $type_name = $this->repay_type_name;$/;"	v	language:PHP
+uid	FinanceController.class.php	/^        $this->uid = get_user_info("uid");$/;"	v	language:PHP
+uid	FinanceController.class.php	/^    private $uid;$/;"	v	language:PHP
+uid	OperatorController.class.php	/^        $this->uid = get_user_info("uid");$/;"	v	language:PHP
+uid	OperatorController.class.php	/^    private $uid; $/;"	v	language:PHP
+uid	PublicController.class.php	/^        $this->uid = get_user_info("uid");$/;"	v	language:PHP
+uid	PublicController.class.php	/^    private $uid;$/;"	v	language:PHP
+uid	SalesmanController.class.php	/^        $this->uid = get_user_info("uid");$/;"	v	language:PHP
+uid	SalesmanController.class.php	/^    private $uid;$/;"	v	language:PHP
+up	MainController.class.php	/^        $up = new Form("");$/;"	v	language:PHP
+upData	MainController.class.php	/^    public function upData()$/;"	f	language:PHP
+url	ManageController.class.php	/^        $url = "http:\/\/u.cc\/update\/".$vtype[$val]."_v".$vid.".tar.bz2";$/;"	v	language:PHP
+url	PublicController.class.php	/^        $url = array("Lifecycle\/index", "Lifecycle\/expiring", "Lifecycle\/expire", "Sos\/index", $/;"	v	language:PHP
+v	ManageController.class.php	/^        $v = new FormElement("vid", "num", "", array("close_label" => 1, "close_element_div" => 1, $/;"	v	language:PHP
+val	ManageController.class.php	/^                    $val = "所有终端";$/;"	v	language:PHP
+val	ManageController.class.php	/^                    $val = $data[$key];$/;"	v	language:PHP
+val	ManageController.class.php	/^                $val = $data[$key];$/;"	v	language:PHP
+val	ManageController.class.php	/^                $val = $vtype[$data[$key]];$/;"	v	language:PHP
+val	ManageController.class.php	/^        $val = "";$/;"	v	language:PHP
+value	FinanceController.class.php	/^        $value = sqlRow("select * from repayment_record where id=".I("get.id"));$/;"	v	language:PHP
+verifyCard	OperatorController.class.php	/^    public function verifyCard()$/;"	f	language:PHP
+version	ManageController.class.php	/^    public function version()$/;"	f	language:PHP
+versionField	ManageController.class.php	/^    public function versionField(& $data, $key)$/;"	f	language:PHP
+vid	ManageController.class.php	/^        $vid = $vid + 1;$/;"	v	language:PHP
+vid	ManageController.class.php	/^        $vid = sqlCol("select max(vid) from kyo_version where vtype=".$val);$/;"	v	language:PHP
+vid	ManageController.class.php	/^        $vid = sqlCol("select max(vid) from kyo_version where vtype=1");$/;"	v	language:PHP
+vtype	ManageController.class.php	/^                $vtype = C("VERSION_TEXT");$/;"	v	language:PHP
+vtype	ManageController.class.php	/^        $vtype = C("VERSION_TEXT");$/;"	v	language:PHP
+vtype	ManageController.class.php	/^        $vtype = array("1" => "all", "2" => "grp", "3" => "one");$/;"	v	language:PHP
+where	AssistController.class.php	/^        $where = ltrim($where, "'");$/;"	v	language:PHP
+where	AssistController.class.php	/^        $where = rtrim($where, "'");$/;"	v	language:PHP
+where	MainController.class.php	/^                    $where = str_replace("[]", $data_path, $fd[$table[0]]) .$/;"	v	language:PHP
+where	MainController.class.php	/^                $where = explode("(", I("get.where"));$/;"	v	language:PHP
+where	MainController.class.php	/^                $where = explode(")", $where[1]);$/;"	v	language:PHP
+where	MainController.class.php	/^                $where = explode(",", $where[0]);$/;"	v	language:PHP
+xls_path	AssistController.class.php	/^            $xls_path = $root."filing.xls";$/;"	v	language:PHP
+zip	AssistController.class.php	/^            $zip = new \\PclZip($filepath);$/;"	v	language:PHP

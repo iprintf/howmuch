@@ -1,0 +1,90 @@
+/* 导航栏 */
+.navbar-inverse {
+    background-color:#383838; 
+    font-size:16px;
+    font-weight:bold;
+    color:#FFF;
+    border-bottom:1px #000 solid;
+}
+
+/* 导航栏网站名字 */
+.navbar-brand {
+    font-size:20px; 
+}
+
+/* 菜单下拉列表 */
+.dropdown-menu {
+    background-color:#383838; 
+}
+
+.dropdown-menu > li a {
+    color:#FFF;
+}
+
+/* 大标题样式 */
+.page-header {
+    margin:20px 0 20px; 
+    padding-left:20px;
+}
+
+.btn {
+/*    min-width:100px;    */
+}
+
+/* 分页显示框样式 */
+.pagination {
+    margin:5px auto;    
+}
+
+/*在线编辑器下拉框文字颜色*/
+.note-editor .dropdown-menu {
+    color:#000;    
+}
+
+@media screen and (max-width: 1980px) {
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+  }
+  .table-responsive > .table {
+    margin-bottom: 0;
+  }
+  .table-responsive > .table > thead > tr > th,
+  .table-responsive > .table > tbody > tr > th,
+  .table-responsive > .table > tfoot > tr > th,
+  .table-responsive > .table > thead > tr > td,
+  .table-responsive > .table > tbody > tr > td,
+  .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+  }
+  .table-responsive > .table-bordered {
+    border: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:first-child,
+  .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:last-child,
+  .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+  }
+  .table-responsive > .table-bordered > tbody > tr:last-child > th,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+  .table-responsive > .table-bordered > tbody > tr:last-child > td,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+  }
+}

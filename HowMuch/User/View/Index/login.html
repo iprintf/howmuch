@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>_</title>
+        <link rel="stylesheet" type="text/css" href="__CSS__/login.css" media="all">
+    </head>
+    <body id="login-page">
+        <div id="main-content">
+        <div style="position:absolute;bottom:0;right:0;font-size:9px;color:#444444">{$hwID}</div>
+            <!-- 主体 -->
+            <div class="login-body">
+                <div class="login-main pr">
+                    <form action="{:U('login')}" method="post" class="login-form">
+                        <div id="itemBox" class="item-box">
+                            <div class="item">
+                                <i class="icon-login-user"></i>
+                                <input type="text" name="username" placeholder="请填写用户名" autocomplete="off" />
+                            </div>
+                            <span class="placeholder_copy placeholder_un">请填写用户名</span>
+                            <div class="item b0">
+                                <i class="icon-login-pwd"></i>
+                                <input type="password" name="password" placeholder="请填写密码" autocomplete="off" />
+                            </div>
+                            <span class="placeholder_copy placeholder_pwd">请填写密码</span>
+                            <div class="item verifycode">
+                                <i class="icon-login-verifycode"></i>
+                                <input type="text" name="verify" placeholder="请填写验证码" autocomplete="off">
+                                <a class="reloadverify" title="换一张" href="javascript:void(0)">换一张？</a>
+                            </div>
+                            <span class="placeholder_copy placeholder_check">请填写验证码</span>
+                            <div>
+                                <img class="verifyimg reloadverify" alt="点击切换" src="{:U('Index/verify')}">
+                            </div>
+                        </div>
+                        <div class="login_btn_panel">
+                            <button class="login-btn" type="submit">
+                                <span class="in"><i class="icon-loading"></i>登 录 中 ...</span>
+                                <span class="on">登 录</span>
+                            </button>
+                            <div class="check-tips"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+	<!--[if lt IE 9]>
+    <script type="text/javascript" src="__JS__/jquery-1.10.2.min.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="__JS__/jquery-2.1.1.min.js"></script>
+    <!--<![endif]-->
+    <script type="text/javascript" src="__JS__/kyo_login.js"></script>
+    <script type="text/javascript" src="__JS__/kyo_global.js"></script>
+</body>
+</html>

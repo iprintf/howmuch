@@ -1,0 +1,9 @@
+bootstrap-multiselect
+    增加多选下拉框
+    修改bootstrap-multiselect.js
+        numberDisplayd的值修改为4 默认为3
+        templates的li中的label增加style属性设置margin-left:5px
+
+CSS：
+    增加了hidden-ss和col-ss-12 在屏幕宽度在480px以下生效
+    给表单布局label和element加入了hidden-ss和col-ss-12

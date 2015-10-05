@@ -1,0 +1,600 @@
+body {
+    background-color:#f7f5fa;
+	font: 14px/1.5 "microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
+    height:100%;
+}
+
+/* 网页主体框样式 */
+#body {
+    margin-top:10px;
+    margin-bottom:10px;
+    padding-bottom:10px;
+    padding-left:10px;
+    padding-right:10px;
+    background-color:#FFFFFF;
+    border-radius:6px;
+    border:1px #CCC solid;
+    box-shadow:2px 3px 5px #000;
+    height:auto;
+}
+
+#loading {
+    position:absolute;
+    top:0;
+    left:0;
+    display:none;
+    z-index:5000;
+    text-align:center;
+    vertical-align:middle;
+    background:#000;
+    filter:alpha(opacity=80);
+    -moz-opacity:0.6;
+    opacity:0.6;
+}
+
+#loading img {
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:124px;
+    height:124px;
+    margin-top:-62px;
+    margin-left:-62px;
+}
+
+/* 用户名显示列 */
+.dis_name_li {
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.428571429;
+  color: #e5e5e5;
+}
+
+/* 用户名显示样式 */
+.dis_name {
+    font-style:italic;
+    color:yellow;
+}
+
+/* 大标题路径样式 */
+.kyo_header_text {
+    font-weight:bold;
+}
+
+/* 主页面板 */
+.kyo_main_panel {
+    padding:0;
+    margin-bottom:10px;
+}
+
+/* 主页面板标题 */
+.kyo_main_panel > .panel-heading {
+    text-align:center;
+	font-weight:bold;
+    font-size:16px;
+    height:50px;
+	text-shadow:2px 1px #D8D8D8;
+}
+
+/* 主页面板内容框样式 */
+.kyo_main_panel > .panel-body {
+    padding:5px;
+    margin:0;
+}
+
+/*向下间隔补白用*/
+.kyo_bottom_margin {
+    margin-bottom:10px;
+}
+
+/* 主页第一行面板的样式 */
+.main_first_row {
+    margin-top:20px;
+}
+
+/* 网格布局行样式 */
+.row {
+    margin-left:1px;
+    margin-right:1px;
+}
+
+/* ================ data_list ===================== */
+
+/* 主页面数据列表框样式 */
+.kyo_data_list {
+    width:100%;
+    margin:0;
+    padding:0;
+    text-align:center;
+}
+
+/* 数据列表没有数据显示的样式 */
+.empty_data_html {
+    background:#F7F7F7;
+    font-style:italic;
+    font-weight:bold;
+    color:red;
+}
+
+/* 数据列表表格样式 */
+.kyo_table_list {
+   margin:0;
+}
+
+/* 数据列表表格标题样式 */
+.kyo_table_list th {
+    text-align:center;
+    background:#F7F7F7;
+    font-weight:bold;
+    height:30px;
+}
+
+/* 分页显示选中链接自定义样式 */
+.pagination > .active > a {
+    z-index:1;
+}
+
+/* 分布总数样式  */
+.page_total {
+    color:red;
+}
+
+/* ================ tool ===================== */
+
+@media (max-width: 480px) {
+.hidden-ss {
+    display: none !important;
+}
+.col-ss-1, .col-ss-2, .col-ss-3, .col-ss-4, .col-ss-5, .col-ss-6, .col-ss-7, .col-ss-8, .col-ss-9, .col-ss-10, .col-ss-11, .col-ss-12 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+  float: left;
+}
+.col-ss-12 {
+  width: 100%;
+}
+.col-ss-11 {
+  width: 91.66666667%;
+}
+.col-ss-10 {
+  width: 83.33333333%;
+}
+.col-ss-9 {
+  width: 75%;
+}
+.col-ss-8 {
+  width: 66.66666667%;
+}
+.col-ss-7 {
+  width: 58.33333333%;
+}
+.col-ss-6 {
+  width: 50%;
+}
+.col-ss-5 {
+  width: 41.66666667%;
+}
+.col-ss-4 {
+  width: 33.33333333%;
+}
+.col-ss-3 {
+  width: 25%;
+}
+.col-ss-2 {
+  width: 16.66666667%;
+}
+.col-ss-1 {
+  width: 8.33333333%;
+}
+.col-ss-offset-12 {
+  margin-left: 100%;
+}
+.col-ss-offset-11 {
+  margin-left: 91.66666667%;
+}
+.col-ss-offset-10 {
+  margin-left: 83.33333333%;
+}
+.col-ss-offset-9 {
+  margin-left: 75%;
+}
+.col-ss-offset-8 {
+  margin-left: 66.66666667%;
+}
+.col-ss-offset-7 {
+  margin-left: 58.33333333%;
+}
+.col-ss-offset-6 {
+  margin-left: 50%;
+}
+.col-ss-offset-5 {
+  margin-left: 41.66666667%;
+}
+.col-ss-offset-4 {
+  margin-left: 33.33333333%;
+}
+.col-ss-offset-3 {
+  margin-left: 25%;
+}
+.col-ss-offset-2 {
+  margin-left: 16.66666667%;
+}
+.col-ss-offset-1 {
+  margin-left: 8.33333333%;
+}
+.col-ss-offset-0 {
+  margin-left: 0;
+}
+}
+
+/* 日期文本框样式 查询框日期输入样式 */
+.kyo_form_date {
+    max-width:105px;
+}
+
+/* 数字输入框样式, 查询框数字输入样式 */
+.kyo_form_num {
+    max-width:80px;
+}
+
+/* 主页面工具栏样式 */
+.kyo_list_tool {
+    padding-bottom:0px;
+    margin-bottom:0px;
+}
+
+/* 主页面工具栏布局行通用样式 */
+.kyo_list_tool > .row {
+    padding:0;
+    margin-bottom:8px;
+}
+
+/* 工具栏导航行和查询行样式 */
+.tool_nav_row, .tool_find_row {
+    text-align:left;
+}
+
+/* 主页面工具栏布局列样式 */
+.kyo_list_tool > .row > [class*="col-"] {
+    padding:3px;
+}
+
+/* 工具栏查询控件样式 */
+.kyo_search_win {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+/* 工具栏查询控件布局列样式 */
+.kyo_search_win li {
+    float:left !important;
+    margin-right:5px;
+    margin-top:5px;
+}
+
+/* ================ tool top ctrl ===================== */
+
+/* 网页主体中的导航栏和工具栏的总框样式 */
+.body_top {
+    margin:0;
+    padding:0;
+    border:0;
+}
+
+/* 导航栏和工具栏显示时控制行样式 */
+.top_ctrl_row {
+    text-align:center;
+    border-bottom:1px #CCC solid;
+}
+
+/* 导航栏和工具栏隐藏后控制行样式 */
+.hidden_top {
+    border:0;
+    margin:0;
+    padding:0;
+}
+
+/* 导航栏和工具栏隐藏控制按钮样式 */
+.top_ctrl_up {
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:0;
+    margin-bottom:0;
+    width:100px;
+    height:20px;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom-left-radius:0;
+    border-bottom-right-radius:0;
+    border-bottom:0;
+    color:#CCC;
+    padding-top:0;
+}
+
+/* 导航栏和工具栏显示按钮样式 */
+.top_ctrl_down {
+    border-top-left-radius:0;
+    border-top-right-radius:0;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+    border-top:0;
+    border-bottom:1px #CCC solid;
+    color:#CCC;
+}
+
+/* ================ pop win ===================== */
+
+/*弹出窗口div层通用样式*/
+.pop_win {
+    position:absolute;
+    top:50%;
+    left:50%;
+    z-index:1041;
+    border:1px #CCC solid;
+    background-color:#FFF;
+    margin:0;
+    padding:0;
+    vertical-align:middle;
+    border-radius:10px;
+    box-shadow:5px 5px 5px #333;
+}
+
+/*弹出窗口标题样式*/
+.pop_title {
+    position:relative;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    background:#F7F7F7;
+    text-align:center;
+    font-weight:bold;
+    width:100%;
+    height:50px;
+    line-height:50px;
+    font-size:16px;
+    border-bottom:1px solid #DEDFDE;
+    text-shadow:2px 1px #D8D8D8;
+    margin-bottom:20px;
+}
+
+/*弹出窗口 窗口主体样式*/
+.pop_body {
+    margin:0;
+    margin-left:10px;
+    margin-right:10px;
+    padding:0;
+    text-align:center;
+}
+
+/*弹出窗口 关闭按钮样式*/
+.pop_close {
+    font-size:28px;
+    text-shadow:none;
+    cursor:pointer;
+    color:#C7C7C7;
+    position:absolute;
+    border:0;
+    right:20px;
+}
+
+/*弹出窗口 关闭按钮鼠标经过样式*/
+.pop_close:hover {
+    font-size:28px;
+    text-shadow:none;
+    color:#000;
+    position:absolute;
+    right:20px;
+}
+
+/*弹出窗口 窗口按钮样式 */
+.pop_button {
+    position:absolute;
+    left:10px;
+    top:10px;
+    text-shadow:10px 2px #D8D8D8;
+    color:#FF0000;
+    cursor:pointer;
+    font-size:12px;
+}
+
+/*弹出窗口额外信息样式*/
+.pop_remark {
+    position:absolute;
+    left:10px;
+    bottom:0px;
+    text-shadow:none;
+    color:#CC0000;
+    font-size:12px;
+}
+
+/*背景层，用于弹出窗口或进度条掩盖层*/
+#ly {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1040;
+    background:#000;
+    filter:alpha(opacity=60);
+    -moz-opacity:0.4;
+    opacity:0.4;
+}
+
+/* ===============  form ================== */
+/* 通用表单样式 */
+.kyo_form {
+    border:1px #CCC solid;
+    border-radius:10px;
+    padding:10px;
+    margin:0;
+    text-align:left;
+}
+
+.form_element {
+    padding:0;
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+/* 信息输出表单样式 */
+.kyo_info_form {
+    text-align:left;
+}
+
+/* 表单元素行样式 */
+.form_element_row {
+}
+
+/* 表单控制按钮行样式 */
+.form_ctrl_btn {
+    text-align:center;
+    margin-bottom:5px;
+}
+
+/* 表单控制按钮下面行和顶间距 */
+.form_ctrl_btn_down {
+    margin-top:20px;
+}
+
+/* 表单控制按钮宽度最小值不得低于100 */
+.form_ctrl_btn .btn {
+    min-width:100px;
+}
+
+/* 表单元素列通用样式 */
+.form_element_row > [class*="col-sm-"] {
+    padding-left:10px;
+    padding-right:10px;
+}
+
+/* 表单元素标题列样式 */
+.form_element_row .form_element_title {
+    text-align:right;
+}
+
+/* 表单元素组标题样式 */
+.kyo_form_group {
+    margin:0;
+    margin-left:15px;
+    margin-right:15px;
+    padding-top:10px;
+    padding-left:20px;
+    background:#f7f7f7;
+    border-radius:10px;
+    font-weight:bold;
+    height:40px;
+}
+
+/* 输入提示框样式 */
+.hint_show {
+    position:absolute;
+    border-radius:10px;
+    border-bottom:1px solid #DEDFDE;
+    display:none;
+    border:1px #000 solid;
+    background:#FFF;
+    color:red;
+    height:50px;
+    font-size:25px;
+    padding:3px;
+    padding-top:6px;
+    text-align:center;
+    font-weight:bold;
+    box-shadow:5px 5px 5px #333;
+}
+
+/* 自动完成显示框样式 */
+.autocomplete_show {
+    position:absolute;
+    height:165px;
+    overflow:auto;
+    display:none;
+    z-index:9900;
+    box-shadow:5px 5px 5px #333;
+}
+
+/* 链接当按钮用的样式 查看图片的样式 */
+.link_btn {
+    cursor: pointer;
+}
+
+/* 文件上传进度条样式 */
+#file_progress_bar {
+    position:absolute;
+    padding-left:0;
+    padding-right:0;
+    width:400px;
+    height:20px;
+    top:50%;
+    left:50%;
+    margin-top:-10px;
+    margin-left:-200px;
+}
+
+/*标题排序上下箭头*/
+.caret_up {
+  border-top: 0;
+  border-bottom: 4px solid;
+}
+
+
+/* pos管理密码显示样式  操作员推荐POS窗口提示信息样式 */
+.big_txt_hint {
+    color:red;
+    font-weight:bold;
+    font-size:48px;
+}
+
+/*操作员验证提示信息样式*/
+.oper_parse_hint{
+    color:red;
+    font-weight:bold;
+    font-size:18px;
+}
+
+/*交易信息的统计数字样式*/
+.deal_info_num {
+   color:red;
+   font-weight:bold;
+}
+
+.form_iframe {
+    width:1200px;
+    height:500px;
+}
+
+/*站内信 单和复选框样式*/
+.message_recv {
+    margin:0;
+    padding:0;
+}
+
+/*站内信 未读数样式*/
+.top_mess_num {
+}
+
+/*操作员推荐pos列表样式*/
+.operator_pos tbody td {
+    height:40px;
+    line-height:40px;
+    font-size:20px;
+}
+
+/*特殊数字样式, 大红色*/
+.kyo_red {
+    color:red;
+    font-weight:bold;
+}
+
+/*特殊数字样式, 黑色*/
+.kyo_black {
+    color:black;
+    font-weight:bold;
+}
+
+.kyo_element_info {
+    word-wrap:break-word;
+    word-break:break-all;
+}
