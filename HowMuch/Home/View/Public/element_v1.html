@@ -1,0 +1,142 @@
+<div class="form_element {$row_class} col-md-{$cols} kyo_{$type}">
+    <notempty name="hint">
+        <assign name="hint_flag" value="kyo_hint" />
+        <div id="hint_{$name}" class="hint_show"></div>
+    </notempty>
+    <switch name="type">
+        <case value="password">
+            <input type="password" id="{$id}" name="{$name}" class="form-control {$class}" 
+                value="{$value}" maxlength="{$maxlength}" placeholder="{$placeholder}"
+                kform="{$form}" autocomplete="off" {$ext} title="{$title}" />
+        </case>
+        <case value="phone">
+            <input type="text" id="{$id}" name="{$name}" class="form-control {$hint_flag} {$class}" 
+                value="{$value}" maxlength="11" placeholder="{$placeholder}" kform="{$form}"
+                hint="{$hint}" autocomplete="off" {$ext} title="{$title}" />
+        </case>
+        <case value="email">
+            <input type="text" id="{$id}" name="{$name}" class="form-control {$class}" 
+                value="{$value}" maxlength="{$maxlength}" placeholder="{$placeholder}"
+                kform="{$form}" autocomplete="off" {$ext} title="{$title}" />
+        </case>
+        <case value="num">
+            <notempty name="el.addon">
+                <div class="input-group">
+            </notempty>
+            <input type="text" id="{$el.id}" name="{$el.name}" class="form-control {$hint_flag} {$el.class}" 
+                value="{$el.value}" maxlength="{$el.maxlength}" placeholder="{$el.placeholder}"
+                min="{$el.min}" max="{$el.max}" kform="{$name}" autocomplete="off" title="{$el.title}"
+                hint="{$el.hint}" {$el.ext} />
+            <notempty name="el.addon">
+                <span class="input-group-addon">{$el.addon}</span>
+                </div>
+            </notempty>
+        </case>
+        <case value="date">
+            <input type="text" id="{$id}" name="{$name}" class="form-control {$class}" 
+                value="{$value}" maxlength="{$maxlength}" placeholder="{$placeholder}"
+                kform="{$form}" autocomplete="off" {$ext} title="{$title}" />
+        </case>
+        <case value="radio">
+            <volist name="list" id="ro">
+                <label class="radio-inline {$ro.class}">
+                <eq name="ro.val" value="$value">
+                    <input type="radio" kform="{$form}" title="{$title}" id="{$ro.id}" name="{$name}" value="{$ro.val}" {$ro.ext} checked="checked" />
+                <e />
+                    <input type="radio" title="{$title}" form="{$form}" id="{$ro.id}" name="{$name}" value="{$ro.val}" {$ro.ext} />
+                </eq>
+                    {$ro.txt}
+                </label>
+            </volist>
+        </case>
+        <case value="checkbox">
+            <volist name="list" key="c" id="cb">
+                <label class="checkbox-inline {$cb.class}">
+                    <eq name="c" value="1">
+                        <input type="checkbox" kform="{$form}" title="{$title}" id="{$cb.id}" name="{$name}" value="{$cb.val}" {$cb.ext} /> {$cb.txt}
+                    <e />
+                        <input type="checkbox" title="{$title}" id="{$cb.id}" name="{$name}" value="{$cb.val}" {$cb.ext} /> {$cb.txt}
+                    </eq>
+                </label>
+            </volist>
+        </case>
+        <case value="select">
+            <select id="{$id}" name="{$name}" title="{$title}" kform="{$form}" class="form-control ${class}" {$ext}>
+                <volist name="list" id="sl">
+                    <php>
+                        <literal>
+                            if (!isset($sl["val"]) || !($value === "") && $sl["val"] == $value)
+                                echo '<option value="'.$sl['val'].'" selected="selected">'.$sl['txt'].'</option>';
+                            else
+                                echo '<option value="'.$sl['val'].'">'.$sl['txt'].'</option>';
+                        </literal>
+                    </php>
+                </volist>
+            </select>
+        </case>
+        <case value="static">
+            <p class="form-control-static">{$value}</p>
+        </case>
+        <case value="file">
+            <input type="file" id="file_{$id}" name="file_{$name}" action="{$action}"
+                    class="form-control form_file {$file_upload} {$class}" value="{$value}"
+                    maxlength="{$maxlength}" placeholder="{$placeholder}" autocomplete="off" 
+                    accept="{$accept}" title="{$title}" {$ext} />
+            <p class="form-control-static {$p_upload}">
+                <a title="{$cat_title}" url="{$url}" class="link_btn cat_img">查看图片</a>&nbsp;&nbsp;
+                <empty name="reset">
+                    <a del="{$del}" class="link_btn reset_upload">重新上传</a>
+                </empty>
+            </p>
+            <input type="hidden" id="{$id}" name="{$name}" {$ext} kform="{$form}" title="{$title}"  value="{$value}" />
+        </case>
+        <case value="textarea">
+            <textarea id="{$id}" name="{$name}" kform="{$form}" title="{$title}" class="form-control {$class}"
+             rows="{$rows}" {$ext}>{$value}</textarea>
+        </case>
+        <case value="hidden">
+            <input type="hidden" id="{$id}" name="{$name}" kform="{$form}" value="{$value}" />
+        </case>
+        <case value="combobox">
+           <div class="input-group">
+                <input type="text" id="{$name}_input" class="form-control input_autocomplete {$class}" 
+                    value="{$input_val}" placeholder="{$placeholder}" maxlength="{$maxlength}"
+                    autocomplete="off" {$ext} title="{$title}" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default input_autocomplete_btn" type="button"><span class="caret"></span></button>
+                </span>
+            </div>
+            <input type="hidden" id="{$id}" name="{$name}" kform="{$form}" title="{$title}" value="{$value}" />
+            <div id="{$name}_show" class="form-control autocomplete_show"></div>
+            <div id="{$name}_data" class="hidden">{$list}</div>
+        </case>
+        <case value="autocomplete">
+            <input type="text" id="{$name}_input" class="form-control input_autocomplete {$class}" 
+                value="{$input_val}" placeholder="{$placeholder}" maxlength="{$maxlength}"
+                autocomplete="off" {$ext} title="{$title}" />
+            <input type="hidden" id="{$id}" name="{$name}" kform="{$form}" title="{$title}" value="{$value}" />
+            <div id="{$name}_show" class="form-control autocomplete_show"></div>
+            <div id="{$name}_data" class="hidden">{$list}</div>
+        </case>
+        <case value="button">
+            <button class="btn btn-primary {$class}" {$link}>
+                <notempty name="icon">
+                    <span class="glyphicon glyphicon-{$icon}"></span>&nbsp;
+                </notempty>
+                {$txt}
+            </button>             
+        </case>
+        <case value="link">
+            <a href="{$href}" class="{$class}" {$link}>
+                <notempty name="icon">
+                    <span class="glyphicon glyphicon-{$icon}"></span>&nbsp;
+                </notempty>
+                {$txt}
+            </a>        
+        </case>
+        <default />
+            <input type="text" id="{$id}" name="{$name}" class="form-control {$class}" 
+                value="{$value}" maxlength="{$maxlength}" placeholder="{$placeholder}"
+                kform="{$form}" autocomplete="off" {$ext}  title="{$title}" />
+    </switch>
+</div>

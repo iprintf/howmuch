@@ -507,7 +507,11 @@ autobodysize();
                                 if (data.indexOf("<body") == -1)
                                 {
                                     $("#body").html(data);
-                                    $(".navbar-toggle").click();
+                                        //alert($(document).width());
+                                    if ($(document).width() < 770)
+                                    {
+                                        $(".navbar-toggle").click();
+                                    }
                                 // if (htmlobj.responseText.indexOf("<body") == -1)
                                     // $("#body").html(htmlobj.responseText);
                                 }
