@@ -22,22 +22,28 @@
         create table user (
             id int not null auto_increment,
             name char(30) not null,
-            sex enum('0', '1') not null,
+            sex enum('1', '2') not null,
             cellphone char(11) not null,
             primary key(id)
         )
 
     商品信息        -- goods
         ID          -- id   (int)
+        商品拼音码  -- code (char(20))
         商品名称    -- name (char(50))
         商品标签    -- label    (char(50))
         单价        -- unit_price    (decimal(10,2))
+        单位        -- unit (char(4))
+        商家        -- merchant(varchar(100))
 
         create table goods (
             id int not null auto_increment,
+            code char(20) not null,
             name char(50) not null,
             label char(50),
             unit_price decimal(10,2),
+            unit char(4),
+            merchant varchar(100),
             primary key(id)
         )
 
@@ -66,22 +72,18 @@
     交易明细信息    -- transaction_detail
         ID          -- id   (int)
         所属交易ID  -- tid  (int)
-        商品名称    -- name     (char(50))
-        商品标签    -- label    (char(50))
+        所属商品ID  -- gid  (int)
         金额        -- total    (decimal(10,2))
-        单价        -- unit_price    (decimal(10,2))
         数量        -- quantity   (int)
         所属者 支持多人 [id:name]...    -- owner    (varchar(500))
 
         create table transaction_detail (
             id int not null auto_increment,
             tid int not null,
-            name char(50) not null,
-            label char(50),
+            gid int not null,
             total decimal(10,2) not null,
-            unit_price decimal(10,2) not null,
             quantity int not null,
-            owner varchar(500) not null,
+            owner varchar(100) not null,
             foreign key(tid) references transaction(id),
             primary key(id)
         )

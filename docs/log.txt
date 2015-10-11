@@ -7,3 +7,12 @@ bootstrap-multiselect
 CSS：
     增加了hidden-ss和col-ss-12 在屏幕宽度在480px以下生效
     给表单布局label和element加入了hidden-ss和col-ss-12
+
+2015-10-05:
+    数据列表电话格式显示cellphone字段
+    修改商品表增加拼音码、单位和商家
+    修改交易明细表增加商品所属ID，删除商品名称、标签和单价
+    解决小于768屏幕点击菜单没有收起来
+    查找栏在屏幕宽度小于一定数值后点不进,原因是没有对查找栏和按钮栏自适应所有屏幕设置 col-md col-sm col-xs
+
+

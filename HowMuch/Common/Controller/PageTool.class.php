@@ -255,7 +255,7 @@ class PageTool extends Controller
         else
         {
             $html .= '<form action="'.$tool["tool_find"]["url"].'" method="post">';
-            $html .= '<ul class="kyo_search_win hidden-xs">';
+            $html .= '<ul class="kyo_search_win hidden-ss">';
             if ($tool["tool_find"]["typelist"])
             {
                 $html .= '<li>';
@@ -335,20 +335,20 @@ class PageTool extends Controller
         $html .= '<div class="row tool_find_row '.$tool["find_row_class"].'">';
 
         if ($tool["close_btn_down"] == 0 && $tool["close_batch"] == 0)  //查询行按钮和批量操作都存在，查询列占9
-            $html .= '<div class="col-md-9">';
+            $html .= '<div class="col-md-9 col-sm-9 col-xs-9 col-ss-9">';
         else if ($tool["close_btn_down"] && $tool["close_batch"])  //按钮和批量操作两个都不存在，查询列占12
-            $html .= '<div class="col-md-12">';
+            $html .= '<div class="col-md-12 col-sm-12 col-xs-12 col-ss-12">';
         else if ($tool["close_btn_down"] == 0 || $tool["close_batch"] == 0)    //按钮和批量操作其中一个存在，查询列占10
-            $html .= '<div class="col-md-10">';
+            $html .= '<div class="col-md-10 col-sm-10 col-xs-10 col-ss-10">';
 
         if (isset($tool["close_tool_find"]) && $tool["close_tool_find"] != 1)
             $html .= $this->find_html($tool);
         $html .= '</div>';
 
         if ($tool["close_btn_down"] == 0 && $tool["close_batch"] == 0)
-            $html .= '<div class="col-md-3 text-right">';
+            $html .= '<div class="col-md-3 col-sm-3 col-xs-3 col-ss-12 text-right">';
         else if ($tool["close_btn_down"] == 0 || $tool["close_batch"] == 0)
-            $html .= '<div class="col-md-2 text-right">';
+            $html .= '<div class="col-md-2 col-sm-2 col-xs-2 col-ss-12 text-right">';
 
         if ($tool["close_btn_down"] != 1)
         {

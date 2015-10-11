@@ -538,6 +538,7 @@ class DataList
         	case "phone1":
         	case "phone2":
         	case "phones":
+        	case "cellphone":
         	case "uphones":
         	case "bphones":
                 $val = format_dis_field($data[$key], array(3, 4, 4));

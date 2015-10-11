@@ -3,6 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 use Common\Controller\ListPage;
 use Common\Controller\Form;
+use Common\Controller\SmallDataList;
 
 class IndexController extends ListPage
 {
@@ -29,12 +30,12 @@ class IndexController extends ListPage
         	case "goodsadd":
                 if (!$title)
                     $title = "新增商品";
-                $pop = "w:550,h:380,n:'goodsadd',t:".$title;
+                $pop = "w:550,h:480,n:'goodsadd',t:".$title;
         	    break;
         	case "goodsedit":
                 if (!$title)
                     $title = "编辑商品";
-                $pop = "w:550,h:380,n:'goodsedit',t:".$title;
+                $pop = "w:550,h:480,n:'goodsedit',t:".$title;
         	    break;
         	default:
         	    break;
@@ -57,6 +58,23 @@ class IndexController extends ListPage
             $this->ajaxReturn(array("info" => "添加失败!", "echo" => 1));
 
         $this->ajaxReturn(array("info" => "添加成功!", "echo" => 1, "url" => U("add"), "tag" => "#body"));
+    }
+
+    public function get_userlist($attender)
+    {
+        if (is_array($attender))
+            $attender = $attender["owner"];
+
+        $user = sqlAll("select name from user where id in (".
+                substr($attender, 1, strlen($attender) - 2).")");
+        $userlist = "";
+        foreach ($user as $u)
+        {
+            $userlist .= $u["name"].", ";
+        }
+        $userlist = rtrim($userlist, ", ");
+
+        return $userlist;
     }
 
     public function add()
@@ -83,31 +101,90 @@ class IndexController extends ListPage
 
     public function add_detail()
     {
-        $form = new Form("", array("action" => U("add_handle"), "class" => "form-horizontal main_first_row"));
-        $form->setElement("add_transaction_group", "group", "添加交易");
-        $form->setElement("name", "string", "交易名称", array("bool" => "required"));
-        $form->setElement("total", "num", "交易金额", array("bool" => "required", "addon" => "元"));
-        $form->setElement("attender", "multiselect", "参与者", array("list" => parse_select_list("select id,name from user")));
-        $form->setElement("comment", "textarea", "备注");
-        //$form->setBtn("记账", "", array("ext" => 'onclick="location.href=\''.U("index").'\'"'));
-         $form->setBtn("记账", U("Home/Index/index"),
+        if (IS_POST)
+        {
+            if (!$_POST["owner"])
+                $this->ajaxReturn(array("echo" => 1, "info" => "所属者没有选择!"));
+            $_POST["owner"] = ",".$_POST["owner"].",";
+
+            $ret = M("transaction_detail")->add($_POST);
+
+            if (!$ret)
+                $this->ajaxReturn(array("echo" => 1, "info" => "添加失败!"));
+
+            $this->ajaxReturn(array("echo" => 1, "info" => "添加成功!", "tag" => "#body", "url" => U("add_detail", "tid=".$_POST["tid"])));
+        }
+
+        $ts = sqlRow("select * from transaction where id=".$_GET["tid"]);
+
+        $form = new Form("", array("action" => U(), "class" => "form-horizontal main_first_row"));
+        $form->setElement("add_transaction_group", "group", "添加交易明细");
+        $form->setElement("code", "autocomplete", "拼音码", array("bool" => "required",
+            "list" => parse_autocomplete("select code,name,merchant,unit_price,unit,id from goods"),
+            "ext" => 'count="2"'));
+        $form->setElement("name", "string", "名称", array("bool" => "required"));
+        $form->setElement("merchant", "string", "商家", array("bool" => "required"));
+        $form->setElement("unit_price", "num", "单价", array("bool" => "required", "addon" => "元"));
+        $form->setElement("unit", "string", "单位", array("bool" => "required"));
+        $form->setElement("quantity", "num", "数量", array("bool" => "required"));
+        $form->setElement("total", "num", "金额", array("bool" => "required", "addon" => "元"));
+        $form->setElement("owner", "multiselect", "所属者", array(
+            "list" => parse_select_list("select id,name from user where id in (".substr($ts["attender"], 1, strlen($ts["attender"]) - 2).")")));
+        $form->setElement("gid", "hidden", "");
+        $form->setElement("tid", "hidden", "", array("value" => $ts["id"]));
+        $form->setBtn("返回", U("detail", "id=".$_GET["tid"]),
                  array("bool" => "blink","ext" => 'type="button"'));
-        $this->show($form->fetch());
+        $form->set("js", "detail");
+
+        $info = $this->transaction_info($ts);
+        $info->set("close_btn_down", 1);
+
+        $this->show($form->fetch().$info->fetch().$this->detail_list()->fetch());
+    }
+
+    public function detail_list()
+    {
+        $data = new SmallDataList("detail", "", 0, array("page" => array("size" => 10000)));
+        $dl = sqlAll("select g.name as name, g.unit_price as price, t.quantity,
+                        g.unit as unit, t.total, g.merchant as merchant, owner
+                      from transaction_detail t, goods g where g.id=t.gid");
+        $data->set("data_list", $dl);
+        $data->setPage("total", count($dl));
+        $data->setTitle(array("名称", "单价", "数量", "单位", "金额", "商家", "所属人"));
+        $data->setField(array("name", "price", "quantity", "unit", "total", "merchant", "owner"));
+        $data->set("data_field 6 run", "Index/get_userlist");
+
+        return $data;
+    }
+
+    public function transaction_info($ts)
+    {
+        $userlist = $this->get_userlist($ts["attender"]);
+
+        $form = new Form("", array("class" => "form-horizontal main_first_row"));
+        $form->setElement("edit_group", "group", $ts["name"]);
+        $form->setInfoElement("info_create_time", "创建时间", $ts["create_time"]);
+        $form->setInfoElement("info_total", "总&nbsp;&nbsp;金&nbsp;&nbsp;额", $ts["total"]." 元");
+        $form->setInfoElement("info_attender","参&nbsp;&nbsp;与&nbsp;&nbsp;者", $userlist);
+        //$form->setInfoElement("remark", "备&emsp;&emsp;注", $row["comment"]);
+        $form->setElement("info_remark", "static", "", array("close_label" => 1,
+            "value" => $ts["comment"],
+            "pclass" => "col-ss-10 col-xs-10 col-sm-10 col-md-10 col-ss-offset-1 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 kyo_element_info"));
+
+        return $form;
     }
 
     public function detail()
     {
         $ts = sqlRow("select * from transaction where id=".$_GET["id"]);
-        $html = '<div class="row main_first_row page-header">';
-        $html .= '<h4>交易明细&nbsp;->&nbsp;'.$ts["name"].'</h4>';
-        $html .= '</span></div>';
-        $html .= '<button type="button" class="btn btn-primary" url="'.U("add_detail").'" tag="#body">添加明细</button>';
+        $html = "";
 
-        $form = new Form("");
-        $form->setElement("title_group", "group", "交易信息");
-        $form->set("close_btn_down", 1);
-
+        $form = $this->transaction_info($ts);
+        $form->set("btn 0", array("txt" => "添加明细", "tag" => "#body",
+            "url" => U("add_detail")."&tid=".$ts["id"], "ext" => 'type="button"'));
         $html .= $form->fetch();
+
+        $html .= $this->detail_list()->fetch();
 
         $this->assign("main_body", $html);
         $this->display(false, "Home@Public/index");
@@ -116,38 +193,21 @@ class IndexController extends ListPage
     public function index()
     {
         $html = '<div class="row main_first_row page-header">';
-        $html .= '<h4 class="col-md-3 col-sm-2 col-xs-5">记账交易</h4>';
+        $html .= '<h4 class="col-md-3 col-sm-2 col-xs-5">记账</h4>';
         $html .= '<span class="col-md-9 col-sm-10 col-xs-7 text-right">';
-        $html .= '<button type="button" class="btn btn-primary" url="'.U("add").'" tag="#body">添加交易</button>';
+        $html .= '<button type="button" class="btn btn-primary" url="'.U("add").'" tag="#body">记一笔</button>';
         $html .= '</span></div>';
 
         $data = sqlAll("select id,name,total,create_time,comment,attender from transaction where state=1 order by create_time desc");
 
         foreach($data as $row)
         {
-            $user = sqlAll("select name from user where id in (".
-                    substr($row["attender"], 1, strlen($row["attender"]) - 2).")");
-            $userlist = "";
-            foreach ($user as $u)
-            {
-                $userlist .= $u["name"].", ";
-            }
-            $userlist = rtrim($userlist, ", ");
-            $form = new Form("", array("class" => "form-horizontal main_first_row"));
-                    //array("class" => "form-horizontal col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2 main_first_row"));
-            $form->setElement("edit_group", "group", $row["name"]);
-            $form->setInfoElement("create_time", "创建时间", $row["create_time"]);
-            $form->setInfoElement("total", "交易金额", $row["total"]." 元");
-            $form->setInfoElement("attender","参&nbsp;&nbsp;与&nbsp;&nbsp;者", $userlist);
-            //$form->setInfoElement("remark", "备&emsp;&emsp;注", $row["comment"]);
-            $form->setElement("remark", "static", "", array("close_label" => 1,
-                "value" => $row["comment"],
-                "pclass" => "col-ss-10 col-xs-10 col-sm-10 col-md-10 col-ss-offset-1 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 kyo_element_info"));
-            $form->set("btn 0 txt", "交易明细");
+            $form = $this->transaction_info($row);
+            $form->set("btn 0 txt", "明细");
             $form->set("btn 0 bool", "blink");
             $form->set("btn 0 url", U("detail")."&id=".$row["id"]);
             $form->set("btn 0 ext", 'type="button"');
-            $form->setBtn("删除交易", U("transaction_del")."&id=".$row["id"],
+            $form->setBtn("删除", U("transaction_del")."&id=".$row["id"],
                     array("ext" => 'type="button" confirm="确定删除?"'));
             $html .= $form->fetch();
         }
@@ -180,6 +240,7 @@ class IndexController extends ListPage
                                               "pop" => $this->getPop("add")));
         //设置查询选项 只能按银行名称查询
         $this->setFind("typelist name", array("txt" => "姓名", "val" => "name"));
+        $this->setFind("typelist cellphone", array("txt" => "电话", "val" => "cellphone"));
 
         //////////////////////////////////////////////////////
         //设置表单成员， 添加、编辑和信息的元素  uniq为不得重复
@@ -212,19 +273,28 @@ class IndexController extends ListPage
                                               "url" => U()."&form=add",
                                               "pop" => $this->getPop("goodsadd")));
 
-        $this->setFind("typelist name", array("txt" => "商品名称", "val" => "name"));
+        $this->setFind("typelist code", array("txt" => "拼音码", "val" => "code"));
+        $this->setFind("typelist name", array("txt" => "名称", "val" => "name"));
+        $this->setFind("typelist label", array("txt" => "标签", "val" => "label"));
+        $this->setFind("typelist merchant", array("txt" => "商家", "val" => "merchant"));
 
-        $this->setElement("name", "string", "商品名称", array("bool" => "required",
+        $this->setElement("name", "string", "名称", array("bool" => "required",
                 "maxlength" => 30));
 
-		$this->setElement("label", "string", "商品标签", array("bool" => "required", "placeholder" => "请输入标签 标签以逗号分隔"));
-		$this->setElement("unit_price", "num", "商品单价", array("bool" => "required", "addon" => "元"));
+        $this->setElement("code", "string", "拼音码", array("bool" => "uniq required",
+                "maxlength" => 30));
+
+		$this->setElement("label", "string", "标签", array("bool" => "required", "placeholder" => "请输入标签 标签以逗号分隔"));
+		$this->setElement("unit_price", "num", "单价", array("bool" => "required", "addon" => "元"));
+		$this->setElement("unit", "select", "单位", array("bool" => "required",
+            "list" => parse_select_list("array", array("斤", "公斤", "个", "只"), array("斤", "公斤", "个", "只"))));
+		$this->setElement("merchant", "string", "商家", array("bool" => "required"));
 
 		//$this->setElement("unit_price", "num", "商品单位", array("bool" => "required"));
 
-        $this->setTitle(array("商品名称", "商品标签", "商品单价"));
+        $this->setTitle(array("名称", "标签", "单价", "单位", "商家"));
 
-        $this->setField(array("name", "label", "unit_price"));
+        $this->setField(array("name", "label", "unit_price", "unit", "merchant"));
         $this->setData("close_chkall", 1);
 
         $this->setOp("编辑", U()."&form=edit&where='id=[id]'",
@@ -233,7 +303,6 @@ class IndexController extends ListPage
                 array("query" => true, "ext" => 'confirm="确定删除吗？"'));
         $this->display();
     }
-
 }
 
 ?>

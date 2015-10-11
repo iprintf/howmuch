@@ -86,7 +86,7 @@ class ListPage extends Controller
                 $this->cur["data"] = $this->data->fetch($this->cur["data_tpl"]);
 //             dump($this->cur);
             $this->assign($this->cur);
-            $templatefile = T('KyoCommon@Public/list_main');
+            $templatefile = T('Public/list_main');
 //             dump(parent::fetch($templatefile));
         }
         else
@@ -141,7 +141,7 @@ class ListPage extends Controller
         {
             $this->assign("nav", $this->cur["nav"]);
             $this->assign("close_nav", $this->cur["close_nav"]);
-            $templatefile = "KyoCommon@Public/list_nav";
+            $templatefile = "Public/list_nav";
         }
         return $this->fetch($templatefile);
     }
