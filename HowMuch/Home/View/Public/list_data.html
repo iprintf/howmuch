@@ -1,0 +1,184 @@
+<eq name="close_data_div" value="1">
+<div class="kyo_data_list {$did} {$data_class}">
+</eq>
+{$front}
+
+<neq name="close_top_page" value="1">
+    {$data_page}
+</neq>
+
+<div class="table-responsive">
+<table class="table {$data_table_class} kyo_table_list">
+    <thead>
+        <empty name="my_data_title">
+            {$title_ext_front}
+            <tr>
+                <neq name="close_num" value="1">
+                    <th>序号</th>
+                </neq>
+                <empty name="title_call">
+                <volist name="data_title" id="vo">
+                    <empty name="vo.url">
+                        <th class="{$vo.class}">{$vo.front}{$vo.txt}{$vo.end}</th>
+                    <else />
+                        <th class="{$vo.class}"><a href="{$vo.href}" {$vo.link}>{$vo.front}{$vo.txt}{$vo.end}</a></th>
+                    </empty>
+                </volist>
+                <else />
+                    <php><literal>
+                        if ($title_call[0] == "run")
+                            R($title_call[1], array($data_title));
+                        else
+                            $title_call[1]($data_title);
+                    </literal></php>
+                </empty>
+                    
+                <neq name="close_op" value="1">
+                    <th>操作</th>
+                </neq>
+
+                <neq name="close_chkall" value="1">
+                    <th><input id="chkall_id" type="checkbox" chktype="{$chkVal}" name="chkall" /></th>
+                </neq>
+            </tr>
+            {$title_ext_end}
+        <else />
+            {$my_data_title}
+        </empty>
+    </thead>
+    <tbody>
+    <empty name="my_data_list">
+        <empty name="data_list">
+            <tr>
+                {$empty_html}
+            </tr>
+        </empty>
+        <volist name="data_list" id='vo' >
+            <empty name="tr_call">
+                <tr>
+            <else />
+               <php><literal>
+                if ($tr_call[0] == "run")
+                    R($tr_call[1], array($vo));
+                else
+                    $tr_call[1]($vo);
+                </literal></php>   
+            </empty>
+                <neq name="close_num" value="1">
+                    <td>{$i}</td>
+                </neq>
+                
+                <empty name="field_call">
+                    <volist name="data_field" id="fd" key="j">
+                        <neq name="fd.hide" value="1">
+                            <td class="{$fd.class}">
+                                <php>
+                                <literal>
+                                    parse_link(& $fd["front"], $vo); 
+                                    echo $fd["front"];
+                                    
+                                    if ($fd["link"] || ($fd["href"] && $fd["href"] != "#"))
+                                    {
+                                        parse_link(& $fd["link"], $vo);
+                                        parse_link(& $fd["href"], $vo);
+                                        echo '<a href="'.$fd["href"].'" '.$fd["link"].'>';
+                                    }
+                                    
+                                    if ($fd["fun"])
+                                        echo $fd["fun"]($vo[$fd["txt"]]);
+                                    else if ($fd["run"])
+                                        R($fd["run"], array($vo, $fd["txt"]));
+                                    else
+                                        echo $vo[$fd["txt"]];
+                                    
+                                    if ($fd["link"])
+                                        echo '</a>';
+                                    
+                                    parse_link(& $fd["end"], $vo); 
+                                    echo $fd["end"];
+                                </literal>
+                                </php>
+                            </td>
+                        </neq>
+                    </volist>
+                <else />
+                    <php><literal>
+                        if ($field_call[0] == "run")
+                            R($field_call[1], array($vo, $data_field));
+                        else
+                            $field_call[1]($vo, $data_field);
+                    </literal></php>                    
+                </empty>
+
+                <empty name="opchk_call">
+                <neq name="close_op" value="1">
+                    <td>
+                        <empty name="op_call">
+                            <volist name="data_op" id="op" key="j">
+                                <neq name="j" value="1">
+                                    &nbsp;
+                                </neq>
+                                <php>
+                                    <literal>
+                                        parse_link(& $op["link"], $vo);
+                                        parse_link(& $op["front"], $vo);
+                                        parse_link(& $op["end"], $vo);
+                                    </literal>
+                                </php>
+                                 {$vo.front}
+                                  <a href="{$op.href}" class="{$op.class}" {$op.link}>{$op.txt}</a>
+                                 {$vo.end}
+                            </volist>
+                        <else />
+                            <php><literal>
+                                if ($op_call[0] == "run")
+                                    R($op_call[1], array($vo, $data_op));
+                                else
+                                    $op_call[1]($vo, $data_op);
+                            </literal></php>                    
+                        </empty>
+                    </td>
+                </neq>
+                <neq name="close_chkall" value="1">
+                    <td>
+                        <empty name="chk_call">                        
+                            <eq name="chkVal" value="1">
+                                <input type="checkbox" name="opChkId" value="{$vo.code}" />
+                            <else />
+                                <input type="checkbox" name="opChkId" value="{$vo.id}" />
+                            </eq>
+                        <else />
+                            <php><literal>
+                                if ($chk_call[0] == "run")
+                                    R($chk_call[1], array($vo));
+                                else
+                                    $chk_call[1]($vo);
+                            </literal></php>                    
+                        </empty>
+                    </td>
+                </neq>
+                <else />
+                    <php><literal>
+                        if ($opchk_call[0] == "run")
+                            R($opchk_call[1], array($vo, $data_op));
+                        else
+                            $opchk_call[1]($vo, $data_op);
+                    </literal></php>                    
+                </empty>
+            </tr>
+        </volist>
+    <else />
+        {$my_data_list}
+    </empty>
+    </tbody>
+</table>
+</div>
+
+<neq name="close_down_page" value="1">
+    {$data_page}
+</neq>
+
+{$end}
+<eq name="close_data_div" value="1">
+</div>
+</eq>
