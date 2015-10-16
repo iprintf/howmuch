@@ -105,9 +105,57 @@ class IndexController extends ListPage
         {
             if (!$_POST["owner"])
                 $this->ajaxReturn(array("echo" => 1, "info" => "所属者没有选择!"));
-            $_POST["owner"] = ",".$_POST["owner"].",";
 
-            $ret = M("transaction_detail")->add($_POST);
+            // $this->ajaxReturn(array("echo" => 1, "info" => "商品ID : ".$_POST["gid"]));
+
+            $goods = sqlRow("select * from goods where id=".$_POST["gid"]);
+
+            if (!$goods)
+                $this->ajaxReturn(array("echo" => 1, "info" => "商品选择有误!"));
+
+            //如果拼音码 名称 商家没有改变 但是单价或单位改变则更新商品信息
+            if ($goods["code"] == $_POST["code"] && $goods["name"] == $_POST["name"]
+                && $goods["merchant"] == $_POST["merchant"]
+                && ($goods["unit"] != $_POST["unit"]
+                || $goods["unit_price"] != $_POST["unit_price"]
+                || $goods["label"] != $_POST["label"]))
+            {
+                $ret = M("goods")->where("id=".$goods["id"])
+                    ->setField(
+                        array("unit_price", $_POST["unit_price"]),
+                        array("unit", $_POST["unit"]),
+                        array("label", $_POST["label"]));
+                if (!$ret)
+                    $this->ajaxReturn(array("echo" => 1, "info" => "更新商品失败!"));
+            }
+            //如果拼音码 名称  商家其中一个改变则添加新商品
+            else if ($goods["code"] != $_POST["code"] || $goods["name"] != $_POST["name"]
+                        || $goods["merchant"] != $_POST["merchant"])
+            {
+                $data = array();
+                $data["code"] = $_POST["code"];
+                $data["name"] = $_POST["name"];
+                $data["merchant"] = $_POST["merchant"];
+                $data["unit"] = $_POST["unit"];
+                $data["unit_price"] = $_POST["unit_price"];
+                $data["label"] = $_POST["label"];
+
+                $ret = M("goods")->add($data);
+                if (!$ret)
+                    $this->ajaxReturn(array("echo" => 1, "info" => "添加商品失败!"));
+
+                $_POST["gid"] = $ret;
+            }
+
+            $data = array();
+            $data["tid"] = $_POST["tid"];
+            $data["gid"] = $_POST["gid"];
+            $data["total"] = $_POST["total"];
+            $data["quantity"] = $_POST["quantity"];
+            $data["unit_price"] = $_POST["unit_price"];
+            $data["owner"] = ",".$_POST["owner"].",";
+
+            $ret = M("transaction_detail")->add($data);
 
             if (!$ret)
                 $this->ajaxReturn(array("echo" => 1, "info" => "添加失败!"));
@@ -120,10 +168,11 @@ class IndexController extends ListPage
         $form = new Form("", array("action" => U(), "class" => "form-horizontal main_first_row"));
         $form->setElement("add_transaction_group", "group", "添加交易明细");
         $form->setElement("code", "autocomplete", "拼音码", array("bool" => "required",
-            "list" => parse_autocomplete("select code,name,merchant,unit_price,unit,id from goods"),
+            "list" => parse_autocomplete("select code,name,merchant,unit_price,unit,label,id from goods"),
             "ext" => 'count="2"'));
         $form->setElement("name", "string", "名称", array("bool" => "required"));
         $form->setElement("merchant", "string", "商家", array("bool" => "required"));
+        $form->setElement("label", "string", "标签", array("bool" => "required"));
         $form->setElement("unit_price", "num", "单价", array("bool" => "required", "addon" => "元"));
         $form->setElement("unit", "string", "单位", array("bool" => "required"));
         $form->setElement("quantity", "num", "数量", array("bool" => "required"));
