@@ -60,7 +60,7 @@ class IndexController extends ListPage
         $this->ajaxReturn(array("info" => "添加成功!", "echo" => 1, "url" => U("add"), "tag" => "#body"));
     }
 
-    public function get_userlist($attender)
+    static public function get_userlist($attender)
     {
         if (is_array($attender))
             $attender = $attender["owner"];
@@ -206,9 +206,9 @@ class IndexController extends ListPage
         return $data;
     }
 
-    public function transaction_info($ts)
+    static public function transaction_info($ts)
     {
-        $userlist = $this->get_userlist($ts["attender"]);
+        $userlist = self::get_userlist($ts["attender"]);
 
         $form = new Form("", array("class" => "form-horizontal main_first_row"));
         $form->setElement("edit_group", "group", $ts["name"]);
@@ -221,22 +221,6 @@ class IndexController extends ListPage
             "pclass" => "col-ss-10 col-xs-10 col-sm-10 col-md-10 col-ss-offset-1 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 kyo_element_info"));
 
         return $form;
-    }
-
-    public function detail()
-    {
-        $ts = sqlRow("select * from transaction where id=".$_GET["id"]);
-        $html = "";
-
-        $form = $this->transaction_info($ts);
-        $form->set("btn 0", array("txt" => "添加明细", "tag" => "#body",
-            "url" => U("add_detail")."&tid=".$ts["id"], "ext" => 'type="button"'));
-        $html .= $form->fetch();
-
-        $html .= $this->detail_list()->fetch();
-
-        $this->assign("main_body", $html);
-        $this->display(false, "Home@Public/index");
     }
 
     public function index()
@@ -254,7 +238,7 @@ class IndexController extends ListPage
             $form = $this->transaction_info($row);
             $form->set("btn 0 txt", "明细");
             $form->set("btn 0 bool", "blink");
-            $form->set("btn 0 url", U("detail")."&id=".$row["id"]);
+            $form->set("btn 0 url", U("Detail/index")."&id=".$row["id"]);
             $form->set("btn 0 ext", 'type="button"');
             $form->setBtn("删除", U("transaction_del")."&id=".$row["id"],
                     array("ext" => 'type="button" confirm="确定删除?"'));
