@@ -42,14 +42,13 @@
  |   |-[F]Controller {
  |   | |-DetailController.class.php
  |   | |-index.html
- |   | |-IndexController.class.php }
+ |   | |-IndexController.class.php
+ |   | |-TransactionController.class.php }
  |   |
  |   |-[F]Model {
  |   | |-index.html }
  |   |
  |   |-[F]View {
- |   | |-[F]Detail {
- |   | | |-nav.html }
  |   | |-[F]Index {
  |   | | |-nav.html }
  |   | |

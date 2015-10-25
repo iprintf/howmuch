@@ -2,20 +2,7 @@ let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
 let s:cpo_save=&cpo
 set cpo&vim
-nnoremap <buffer> <silent> <NL> :call exproject#cursor_jump( '\C\[F\]', 'down' )
-nnoremap <buffer> <silent>  :call exproject#cursor_jump( '\C\[F\]', 'up' )
-nnoremap <buffer> <silent>  :call exproject#confirm_select('')
-nnoremap <buffer> <silent>   :call exproject#toggle_zoom()
-nnoremap <buffer> <silent> ,r :EXProjectRefresh
-nnoremap <buffer> <silent> ,R :EXProjectBuild
-nnoremap <buffer> <silent> O :call exproject#newfolder()
-nnoremap <buffer> <silent> o :call exproject#newfile()
-nnoremap <buffer> <silent> t :call exproject#tabopen()
-nnoremap <buffer> <silent> <C-Tab> :call EXProjectToNERDTree()
-nnoremap <buffer> <silent> <S-2-LeftMouse> :call exproject#confirm_select('shift')
-nnoremap <buffer> <silent> <S-CR> :call exproject#confirm_select('shift')
-nnoremap <buffer> <silent> <2-LeftMouse> :call exproject#confirm_select('')
-nnoremap <buffer> <silent> <F1> :call exproject#toggle_help()
+nnoremap <buffer> <silent> <F5> :call vimentry#apply_project_type()
 let &cpo=s:cpo_save
 unlet s:cpo_save
 setlocal keymap=
@@ -41,15 +28,15 @@ setlocal nocopyindent
 setlocal cryptmethod=
 setlocal nocursorbind
 setlocal nocursorcolumn
-setlocal cursorline
+setlocal nocursorline
 setlocal define=
 setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'exproject'
-setlocal filetype=exproject
+if &filetype != 'vimentry'
+setlocal filetype=vimentry
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -58,9 +45,9 @@ setlocal foldignore=#
 setlocal foldlevel=9999
 setlocal foldmarker={,}
 setlocal foldmethod=marker
-setlocal foldminlines=0
+setlocal foldminlines=1
 setlocal foldnestmax=20
-setlocal foldtext=exproject#foldtext()
+setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
@@ -82,7 +69,7 @@ setlocal matchpairs=(:),{:},[:]
 setlocal nomodeline
 setlocal modifiable
 setlocal nrformats=
-setlocal nonumber
+setlocal number
 setlocal numberwidth=4
 setlocal omnifunc=
 setlocal path=
@@ -104,32 +91,26 @@ setlocal spellfile=
 setlocal spelllang=en
 setlocal statusline=
 setlocal suffixesadd=
-setlocal swapfile
+setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != 'exproject'
-setlocal syntax=exproject
+if &syntax != 'vimentry'
+setlocal syntax=vimentry
 endif
 setlocal tabstop=4
 setlocal tags=
 setlocal textwidth=0
 setlocal thesaurus=
 setlocal noundofile
-setlocal winfixheight
-setlocal winfixwidth
+setlocal nowinfixheight
+setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
-3
-normal! zo
-8
-normal! zo
-9
-normal! zo
-let s:l = 11 - ((3 * winheight(0) + 10) / 20)
+let s:l = 8 - ((7 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-11
-normal! 08|
+8
+normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

@@ -486,7 +486,7 @@ class FormElement
                     foreach ($el["list"] as $key => $sl)
                     {
                         karray($sl, array("val", "txt"));
-                        if ($sl["val"] === "" || !($el["value"] === "") && (string)$sl["val"] == (string)$el["value"])
+                        if ($sl["val"] === "" || !($el["value"] === "") && (string)$sl["val"] == (string)$el["value"] || strstr($el["value"], ",".$sl["val"].","))
                         {
                             $html .= '<option value="'.$sl['val'].'" selected="selected">'.$sl['txt'].'</option>';
                         }

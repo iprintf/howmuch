@@ -40,7 +40,14 @@
         </div>
         
         <div class="collapse navbar-collapse">
-            <block name="nav_list">导航列表</block>
+            <ul class="nav navbar-nav">
+                <li><a href="#" data="{:U('Transaction/add')}">记一笔</a></li>
+                <li><a href="{:U('Transaction/index')}">记账</a></li>
+                <li><a href="#" data="{:U('Index/did_transaction')}">算账</a></li>
+                <li><a href="#" data="{:U('Index/end_transaction')}">旧账</a></li>
+                <li><a href="#" data="{:U('Index/user')}">用户</a></li>
+                <li><a href="#" data="{:U('Index/goods')}">商品</a></li>
+            </ul>
         </div>
     </div>
 </div>

@@ -12,69 +12,73 @@ class DetailController extends ListPage
         parent::__construct();
     }
 
+    public function post()
+    {
+        if (!$_POST["owner"])
+            $this->ajaxReturn(array("echo" => 1, "info" => "所属者没有选择!"));
+
+        // $this->ajaxReturn(array("echo" => 1, "info" => "商品ID : ".$_POST["gid"]));
+
+        $goods = sqlRow("select * from goods where id=".$_POST["gid"]);
+
+        if (!$goods)
+            $this->ajaxReturn(array("echo" => 1, "info" => "商品选择有误!"));
+
+        //如果拼音码 名称 商家没有改变 但是单价或单位改变则更新商品信息
+        if ($goods["code"] == $_POST["code"] && $goods["name"] == $_POST["name"]
+            && $goods["merchant"] == $_POST["merchant"]
+            && ($goods["unit"] != $_POST["unit"]
+            || $goods["unit_price"] != $_POST["unit_price"]
+            || $goods["label"] != $_POST["label"]))
+        {
+            $ret = M("goods")->where("id=".$goods["id"])
+                ->setField(
+                    array("unit_price", $_POST["unit_price"]),
+                    array("unit", $_POST["unit"]),
+                    array("label", $_POST["label"]));
+            if (!$ret)
+                $this->ajaxReturn(array("echo" => 1, "info" => "更新商品失败!"));
+        }
+        //如果拼音码 名称  商家其中一个改变则添加新商品
+        else if ($goods["code"] != $_POST["code"] || $goods["name"] != $_POST["name"]
+                    || $goods["merchant"] != $_POST["merchant"])
+        {
+            $data = array();
+            $data["code"] = $_POST["code"];
+            $data["name"] = $_POST["name"];
+            $data["merchant"] = $_POST["merchant"];
+            $data["unit"] = $_POST["unit"];
+            $data["unit_price"] = $_POST["unit_price"];
+            $data["label"] = $_POST["label"];
+
+            $ret = M("goods")->add($data);
+            if (!$ret)
+                $this->ajaxReturn(array("echo" => 1, "info" => "添加商品失败!"));
+
+            $_POST["gid"] = $ret;
+        }
+
+        $data = array();
+        $data["tid"] = $_POST["tid"];
+        $data["gid"] = $_POST["gid"];
+        $data["total"] = $_POST["total"];
+        $data["quantity"] = $_POST["quantity"];
+        $data["unit_price"] = $_POST["unit_price"];
+        $data["owner"] = ",".$_POST["owner"].",";
+
+        $ret = M("transaction_detail")->add($data);
+
+        if (!$ret)
+            $this->ajaxReturn(array("echo" => 1, "info" => "添加失败!"));
+
+        $this->ajaxReturn(array("echo" => 1, "info" => "添加成功!", "tag" => "#body", "url" => U("add_detail", "tid=".$_POST["tid"])));
+
+    }
+
     public function add_detail()
     {
         if (IS_POST)
-        {
-            if (!$_POST["owner"])
-                $this->ajaxReturn(array("echo" => 1, "info" => "所属者没有选择!"));
-
-            // $this->ajaxReturn(array("echo" => 1, "info" => "商品ID : ".$_POST["gid"]));
-
-            $goods = sqlRow("select * from goods where id=".$_POST["gid"]);
-
-            if (!$goods)
-                $this->ajaxReturn(array("echo" => 1, "info" => "商品选择有误!"));
-
-            //如果拼音码 名称 商家没有改变 但是单价或单位改变则更新商品信息
-            if ($goods["code"] == $_POST["code"] && $goods["name"] == $_POST["name"]
-                && $goods["merchant"] == $_POST["merchant"]
-                && ($goods["unit"] != $_POST["unit"]
-                || $goods["unit_price"] != $_POST["unit_price"]
-                || $goods["label"] != $_POST["label"]))
-            {
-                $ret = M("goods")->where("id=".$goods["id"])
-                    ->setField(
-                        array("unit_price", $_POST["unit_price"]),
-                        array("unit", $_POST["unit"]),
-                        array("label", $_POST["label"]));
-                if (!$ret)
-                    $this->ajaxReturn(array("echo" => 1, "info" => "更新商品失败!"));
-            }
-            //如果拼音码 名称  商家其中一个改变则添加新商品
-            else if ($goods["code"] != $_POST["code"] || $goods["name"] != $_POST["name"]
-                        || $goods["merchant"] != $_POST["merchant"])
-            {
-                $data = array();
-                $data["code"] = $_POST["code"];
-                $data["name"] = $_POST["name"];
-                $data["merchant"] = $_POST["merchant"];
-                $data["unit"] = $_POST["unit"];
-                $data["unit_price"] = $_POST["unit_price"];
-                $data["label"] = $_POST["label"];
-
-                $ret = M("goods")->add($data);
-                if (!$ret)
-                    $this->ajaxReturn(array("echo" => 1, "info" => "添加商品失败!"));
-
-                $_POST["gid"] = $ret;
-            }
-
-            $data = array();
-            $data["tid"] = $_POST["tid"];
-            $data["gid"] = $_POST["gid"];
-            $data["total"] = $_POST["total"];
-            $data["quantity"] = $_POST["quantity"];
-            $data["unit_price"] = $_POST["unit_price"];
-            $data["owner"] = ",".$_POST["owner"].",";
-
-            $ret = M("transaction_detail")->add($data);
-
-            if (!$ret)
-                $this->ajaxReturn(array("echo" => 1, "info" => "添加失败!"));
-
-            $this->ajaxReturn(array("echo" => 1, "info" => "添加成功!", "tag" => "#body", "url" => U("add_detail", "tid=".$_POST["tid"])));
-        }
+            $this->post();
 
         if (isset($_GET["id"]))
         {
@@ -107,18 +111,19 @@ class DetailController extends ListPage
                  array("bool" => "blink","ext" => 'type="button"'));
         $form->set("js", "detail");
 
-        $info = IndexController::transaction_info($ts);
+        $info = TransactionController::info($ts);
         $info->set("close_btn_down", 1);
 
-        $this->show($form->fetch().$info->fetch().$this->detail_list()->fetch());
+        $this->show($form->fetch().$info->fetch().$this->detail_list($detail["tid"])->fetch());
     }
 
-    public function detail_list()
+    public function detail_list($tid)
     {
         $data = new SmallDataList("detail", "", 0, array("page" => array("size" => 10000)));
         $dl = sqlAll("select t.id, t.tid, g.name as name, t.unit_price as price, t.quantity,
                         g.unit as unit, t.total, g.merchant as merchant, owner
-                      from transaction_detail t, goods g where g.id=t.gid");
+                        from transaction_detail t, goods g where g.id=t.gid
+                        and t.tid=".$tid);
         $data->set("data_list", $dl);
         $data->set("close_op", 0);
         $data->setPage("total", count($dl));
@@ -136,12 +141,33 @@ class DetailController extends ListPage
         $ts = sqlRow("select * from transaction where id=".$_GET["id"]);
         $html = "";
 
-        $form = IndexController::transaction_info($ts);
-        $form->set("btn 0", array("txt" => "添加明细", "tag" => "#body",
-            "url" => U("add_detail")."&tid=".$ts["id"], "ext" => 'type="button"'));
-        $html .= $form->fetch();
+        $form = TransactionController::info($ts);
+        // $form->set("btn 0", array("txt" => "添加明细", "tag" => "#body",
+            // "url" => U("add_detail")."&tid=".$ts["id"], "ext" => 'type="button"'));
+        $form->set("btn 0 txt", "添加明细");
+        $form->set("btn 0 url", U("add_detail")."&tid=".$ts["id"]);
+        $form->set("btn 0 tag", "#body");
+        $form->set("btn 0 ext", 'type="button"');
+        $form->setBtn("添加付款", U("Transaction/index"), array("bool" => 'blink'));
+        // $form->setBtn("结账", U("Transaction/index"), array("bool" => 'blink'));
+        $form->setBtn("返回列表", U("Transaction/index"), array("bool" => 'blink'));
+        // $html .= $form->fetch();
+        $form->setElement("detail_group", "group", "明细列表");
+        $form->setElement("custom_detail", "custom", "", array("close_label" => 1,
+            "element_cols" => "12",
+            "custom_html" => $this->detail_list($_GET["id"])->fetch()
+        ));
+        $form->setElement("repay_group", "group", "付款列表");
+        $form->setElement("custom_repay", "custom", "", array("close_label" => 1,
+            "element_cols" => "12",
+            "custom_html" => $this->detail_list($_GET["id"])->fetch()
+        ));
 
-        $html .= $this->detail_list()->fetch();
+        // $html .= '<div class="page-header kyo_form_group">明细列表</div>';
+        // $html .= $this->detail_list($_GET["id"])->fetch();
+
+        // $html .= $this->detail_list($_GET["id"])->fetch();
+        $html .= $form->fetch();
 
         $this->assign("main_body", $html);
         $this->display(false, "Home@Public/index");
