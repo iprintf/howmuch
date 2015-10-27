@@ -136,37 +136,61 @@ class DetailController extends ListPage
         return $data;
     }
 
+    public function repay_list($tid)
+    {
+        $data = new SmallDataList("detail", "", 0, array("page" => array("size" => 10000)));
+        $dl = sqlAll("select t.id, t.tid, g.name as name, t.unit_price as price, t.quantity,
+                        g.unit as unit, t.total, g.merchant as merchant, owner
+                        from transaction_detail t, goods g where g.id=t.gid
+                        and t.tid=".$tid);
+        $data->set("data_list", $dl);
+        $data->set("close_op", 0);
+        $data->setPage("total", count($dl));
+        $data->setTitle(array("付款人", "付款金额"));
+        $data->setField(array("name", "price"));
+        $data->setOp("编辑", U("add_detail")."&tid=[tid]&id=[id]", array("tag" => "#body"));
+        $data->setOp("删除", U("del")."&id=[id]");
+
+        return $data;
+    }
+
     public function index()
     {
         $ts = sqlRow("select * from transaction where id=".$_GET["id"]);
         $html = "";
 
         $form = TransactionController::info($ts);
-        // $form->set("btn 0", array("txt" => "添加明细", "tag" => "#body",
-            // "url" => U("add_detail")."&tid=".$ts["id"], "ext" => 'type="button"'));
-        $form->set("btn 0 txt", "添加明细");
-        $form->set("btn 0 url", U("add_detail")."&tid=".$ts["id"]);
-        $form->set("btn 0 tag", "#body");
-        $form->set("btn 0 ext", 'type="button"');
-        $form->setBtn("添加付款", U("Transaction/index"), array("bool" => 'blink'));
-        // $form->setBtn("结账", U("Transaction/index"), array("bool" => 'blink'));
-        $form->setBtn("返回列表", U("Transaction/index"), array("bool" => 'blink'));
-        // $html .= $form->fetch();
-        $form->setElement("detail_group", "group", "明细列表");
+
+        $btn = '<button class="btn btn-primary">编辑</button>&emsp;';
+        $btn .= '<button class="btn btn-primary">删除</button>&emsp;';
+        $btn .= '<button class="btn btn-primary">返回</button>';
+
+        $form->setElement("detail_op_custom", "custom", "", array(
+                "close_label" => 1, "element_cols" => 12,
+                "pclass" => "text-center",
+                "custom_html" => $btn));
+
+        $detail_btn_html = '<a href="'.U("Transaction/index").'"><span class="glyphicon glyphicon-plus pull-right" style="margin-right:30px;" title="添加明细信息">&nbsp;添加明细</span></a>';
+        $form->setElement("detail_group", "group", "明细列表".$detail_btn_html);
         $form->setElement("custom_detail", "custom", "", array("close_label" => 1,
             "element_cols" => "12",
             "custom_html" => $this->detail_list($_GET["id"])->fetch()
         ));
-        $form->setElement("repay_group", "group", "付款列表");
+
+        $repay_btn_html = '<a href="'.U("Transaction/index").'"><span class="glyphicon glyphicon-plus pull-right" style="margin-right:30px;" title="添加付款信息">&nbsp;添加付款</span></a>';
+        $form->setElement("repay_group", "group", "付款列表".$repay_btn_html);
         $form->setElement("custom_repay", "custom", "", array("close_label" => 1,
             "element_cols" => "12",
-            "custom_html" => $this->detail_list($_GET["id"])->fetch()
+            "custom_html" => $this->repay_list($_GET["id"])->fetch()
         ));
 
-        // $html .= '<div class="page-header kyo_form_group">明细列表</div>';
-        // $html .= $this->detail_list($_GET["id"])->fetch();
+        $form->set("btn 0 txt", "结账");
+        $form->set("btn 0 url", U("add_detail")."&tid=".$ts["id"]);
+        $form->set("btn 0 tag", "#body");
+        $form->set("btn 0 ext", 'type="button"');
+        // $form->setBtn("结账", U("Transaction/index"), array("bool" => 'blink'));
+        // $form->setBtn("返回列表", U("Transaction/index"), array("bool" => 'blink'));
 
-        // $html .= $this->detail_list($_GET["id"])->fetch();
         $html .= $form->fetch();
 
         $this->assign("main_body", $html);

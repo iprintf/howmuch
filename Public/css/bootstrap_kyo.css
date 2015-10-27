@@ -1,6 +1,6 @@
 /* 导航栏 */
 .navbar-inverse {
-    background-color:#383838; 
+    background-color:#383838;
     font-size:16px;
     font-weight:bold;
     color:#FFF;
@@ -9,12 +9,12 @@
 
 /* 导航栏网站名字 */
 .navbar-brand {
-    font-size:20px; 
+    font-size:20px;
 }
 
 /* 菜单下拉列表 */
 .dropdown-menu {
-    background-color:#383838; 
+    background-color:#383838;
 }
 
 .dropdown-menu > li a {
@@ -23,7 +23,7 @@
 
 /* 大标题样式 */
 .page-header {
-    margin:20px 0 20px; 
+    margin:20px 0 20px;
     padding-left:20px;
 }
 
@@ -33,12 +33,12 @@
 
 /* 分页显示框样式 */
 .pagination {
-    margin:5px auto;    
+    margin:5px auto;
 }
 
 /*在线编辑器下拉框文字颜色*/
 .note-editor .dropdown-menu {
-    color:#000;    
+    color:#000;
 }
 
 @media screen and (max-width: 1980px) {

@@ -17,7 +17,7 @@ class TransactionController extends ListPage
         $html = '<div class="row main_first_row page-header">';
         $html .= '<h4 class="col-md-3 col-sm-2 col-xs-5">记账</h4>';
         $html .= '<span class="col-md-9 col-sm-10 col-xs-7 text-right">';
-        $html .= '<button type="button" class="btn btn-primary" url="'.U("add").'" tag="#body">记一笔</button>';
+        $html .= '<button type="button" class="btn btn-primary" url="'.U("add").'" tag="#body"><span class="glyphicon glyphicon-plus"></span>&nbsp;记一笔</button>';
         $html .= '</span></div>';
 
         $data = sqlAll("select id,name,total,create_time,comment,attender from transaction where state=1 order by create_time desc");
@@ -71,6 +71,8 @@ class TransactionController extends ListPage
     {
         if ($_GET["id"])
             $transaction = sqlRow("select * from transaction where id=".$_GET["id"]);
+        else
+            $transaction["total"] = 0;
 
         $form = new Form("", array("action" => U("post"), "class" => "form-horizontal main_first_row"));
         $form->setElement("add_transaction_group", "group", "添加交易");
@@ -101,7 +103,7 @@ class TransactionController extends ListPage
 
         $form = new Form("", array("class" => "form-horizontal main_first_row"));
         if (!strstr(U(), "Transaction"))
-            $return_btn_html = '<a href="'.U("Transaction/index").'"><span class="glyphicon glyphicon-share pull-right" style="margin-right:30px;" title="返回交易列表"></span></a>';
+            $return_btn_html = '<a href="'.U("Transaction/index").'"><span class="glyphicon glyphicon-home pull-right" style="margin-right:30px;" title="返回交易列表"></span></a>';
 
         $form->setElement("edit_group", "group", $ts["name"].$return_btn_html);
         $form->setInfoElement("info_create_time", "创建时间", $ts["create_time"]);
