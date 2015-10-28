@@ -463,6 +463,12 @@ body {
     min-width:100px;
 }
 
+@media (max-width: 767px) {
+  .kyo_btn_xs {
+    min-width:30px;
+  }
+}
+
 /* 表单元素列通用样式 */
 .form_element_row > [class*="col-sm-"] {
     padding-left:10px;

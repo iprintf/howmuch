@@ -70,21 +70,32 @@ class TransactionController extends ListPage
     public function add()
     {
         if ($_GET["id"])
+        {
             $transaction = sqlRow("select * from transaction where id=".$_GET["id"]);
+            $title = "编辑交易";
+        }
         else
+        {
             $transaction["total"] = 0;
+            $title = "添加交易";
+        }
 
         $form = new Form("", array("action" => U("post"), "class" => "form-horizontal main_first_row"));
-        $form->setElement("add_transaction_group", "group", "添加交易");
+        $form->setElement("add_transaction_group", "group", $title);
         $form->setElement("name", "string", "交易名称", array("bool" => "required", "value" => $transaction["name"]));
-        $form->setElement("total", "num", "交易金额", array("bool" => "required", "addon" => "元", "value" => $transaction["total"]));
+        $form->setElement("total", "num", "交易金额", array("bool" => "readonly required", "addon" => "元", "value" => $transaction["total"]));
         $form->setElement("attender", "multiselect", "参与者", array("list" => parse_select_list("select id,name from user"), "value" => $transaction["attender"]));
         $form->setElement("comment", "textarea", "备注", array("value" => $transaction["comment"]));
         $form->setElement("id", "hidden", "", array("value" => $transaction["id"]));
         //$form->setBtn("记账", "", array("ext" => 'onclick="location.href=\''.U("index").'\'"'));
         if ($transaction)
             $form->set("btn 0 txt", "编辑");
-        $form->setBtn("返回", U("index"),
+        if ($_GET["did"])
+            $url = U("Detail/index", "id=".$transaction["id"]);
+        else
+            $url = U("index");
+
+        $form->setBtn("返回", $url,
                  array("bool" => "blink","ext" => 'type="button"'));
         $this->show($form->fetch());
     }

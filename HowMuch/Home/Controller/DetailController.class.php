@@ -66,12 +66,15 @@ class DetailController extends ListPage
         $data["unit_price"] = $_POST["unit_price"];
         $data["owner"] = ",".$_POST["owner"].",";
 
-        $ret = M("transaction_detail")->add($data);
+        if ($_POST["id"])
+            $ret = M("transaction_detail")->where("id=".$_POST["id"])->save($data);
+        else
+            $ret = M("transaction_detail")->add($data);
 
         if (!$ret)
-            $this->ajaxReturn(array("echo" => 1, "info" => "添加失败!"));
+            $this->ajaxReturn(array("echo" => 1, "info" => "操作失败!"));
 
-        $this->ajaxReturn(array("echo" => 1, "info" => "添加成功!", "tag" => "#body", "url" => U("add_detail", "tid=".$_POST["tid"])));
+        $this->ajaxReturn(array("echo" => 1, "info" => "操作成功!", "url" => U("Detail/index", "id=".$_POST["tid"])));
 
     }
 
@@ -84,8 +87,12 @@ class DetailController extends ListPage
         {
             $detail = sqlRow("select t.id, t.tid, g.name as name, t.unit_price as price,
                     t.quantity, g.unit as unit, t.total, g.merchant as merchant, owner
-                    ,code,label
+                    ,code,label,gid
                   from transaction_detail t, goods g where g.id=t.gid and t.id=".$_GET["id"]);
+        }
+        else
+        {
+            $detail["tid"] = $_GET["tid"];
         }
         $ts = sqlRow("select * from transaction where id=".$_GET["tid"]);
 
@@ -93,6 +100,7 @@ class DetailController extends ListPage
         $form->setElement("add_transaction_group", "group", "添加交易明细");
         $form->setElement("code", "autocomplete", "拼音码", array("bool" => "required",
             "input_val" => $detail["code"],
+            "value" => $detail["code"],
             "list" => parse_autocomplete("select code,name,merchant,unit_price,unit,label,id from goods"),
             "ext" => 'count="2"'));
         $form->setElement("name", "string", "名称", array("bool" => "required", "value" => $detail["name"]));
@@ -103,6 +111,7 @@ class DetailController extends ListPage
         $form->setElement("quantity", "num", "数量", array("bool" => "required", "value" => $detail["quantity"]));
         $form->setElement("total", "num", "金额", array("bool" => "required", "addon" => "元", "value" => $detail["total"]));
         $form->setElement("owner", "multiselect", "所属者", array(
+            "value" => $detail["owner"],
             "list" => parse_select_list("select id,name from user where id in (".substr($ts["attender"], 1, strlen($ts["attender"]) - 2).")")));
         $form->setElement("gid", "hidden", "", array("value" => $detail["gid"]));
         $form->setElement("tid", "hidden", "", array("value" => $ts["id"]));
@@ -111,10 +120,13 @@ class DetailController extends ListPage
                  array("bool" => "blink","ext" => 'type="button"'));
         $form->set("js", "detail");
 
+        if (isset($_GET["id"]))
+            $form->set("btn 0 txt", "编辑");
+
         $info = TransactionController::info($ts);
         $info->set("close_btn_down", 1);
 
-        $this->show($form->fetch().$info->fetch().$this->detail_list($detail["tid"])->fetch());
+        $this->show($form->fetch());
     }
 
     public function detail_list($tid)
@@ -161,16 +173,16 @@ class DetailController extends ListPage
 
         $form = TransactionController::info($ts);
 
-        $btn = '<button class="btn btn-primary">编辑</button>&emsp;';
-        $btn .= '<button class="btn btn-primary">删除</button>&emsp;';
-        $btn .= '<button class="btn btn-primary">返回</button>';
+        $btn = '<button class="btn btn-primary" url="'.U("Transaction/add", "id=".$ts["id"]."&did=1").'" tag="#body">编辑</button>&emsp;';
+        $btn .= '<button class="btn btn-primary" url="'.U("Transaction/del", "id=".$ts["id"]).'" confirm="确定删除吗？">删除</button>&emsp;';
+        $btn .= '<button class="btn btn-primary" type="button" url="'.U("Transaction/index").'" blink="blink">返回</button>';
 
         $form->setElement("detail_op_custom", "custom", "", array(
                 "close_label" => 1, "element_cols" => 12,
                 "pclass" => "text-center",
                 "custom_html" => $btn));
 
-        $detail_btn_html = '<a href="'.U("Transaction/index").'"><span class="glyphicon glyphicon-plus pull-right" style="margin-right:30px;" title="添加明细信息">&nbsp;添加明细</span></a>';
+        $detail_btn_html = '<a href="#" url="'.U("add_detail", "tid=".$ts["id"]).'" tag="#body"><span class="glyphicon glyphicon-plus pull-right" style="margin-right:30px;" title="添加明细信息">&nbsp;添加明细</span></a>';
         $form->setElement("detail_group", "group", "明细列表".$detail_btn_html);
         $form->setElement("custom_detail", "custom", "", array("close_label" => 1,
             "element_cols" => "12",
@@ -196,7 +208,6 @@ class DetailController extends ListPage
         $this->assign("main_body", $html);
         $this->display(false, "Home@Public/index");
     }
-
 }
 
 ?>
