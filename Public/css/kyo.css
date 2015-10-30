@@ -458,15 +458,12 @@ body {
     margin-top:20px;
 }
 
+@media (min-width: 767px) {
 /* 表单控制按钮宽度最小值不得低于100 */
 .form_ctrl_btn .btn {
     min-width:100px;
 }
 
-@media (max-width: 767px) {
-  .kyo_btn_xs {
-    min-width:30px;
-  }
 }
 
 /* 表单元素列通用样式 */

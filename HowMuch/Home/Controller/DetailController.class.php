@@ -12,6 +12,28 @@ class DetailController extends ListPage
         parent::__construct();
     }
 
+    static public function getPop($type, $title = "")
+    {
+        $pop = "";
+        switch ($type)
+        {
+        	case "addpay":
+                if (!$title)
+                    $title = "新增付款信息";
+                $pop = "w:450,h:300,n:'payadd',t:".$title;
+        	    break;
+        	case "editpay":
+                if (!$title)
+                    $title = "编辑付款信息";
+                $pop = "w:450,h:300,n:'paydit',t:".$title;
+        	    break;
+        	default:
+        	    break;
+        }
+        return $pop;
+    }
+
+
     public function post()
     {
         if (!$_POST["owner"])
@@ -21,8 +43,8 @@ class DetailController extends ListPage
 
         $goods = sqlRow("select * from goods where id=".$_POST["gid"]);
 
-        if (!$goods)
-            $this->ajaxReturn(array("echo" => 1, "info" => "商品选择有误!"));
+        // if (!$goods)
+            // $this->ajaxReturn(array("echo" => 1, "info" => "商品选择有误!"));
 
         //如果拼音码 名称 商家没有改变 但是单价或单位改变则更新商品信息
         if ($goods["code"] == $_POST["code"] && $goods["name"] == $_POST["name"]
@@ -40,7 +62,7 @@ class DetailController extends ListPage
                 $this->ajaxReturn(array("echo" => 1, "info" => "更新商品失败!"));
         }
         //如果拼音码 名称  商家其中一个改变则添加新商品
-        else if ($goods["code"] != $_POST["code"] || $goods["name"] != $_POST["name"]
+        else if (!$goods || $goods["code"] != $_POST["code"] || $goods["name"] != $_POST["name"]
                     || $goods["merchant"] != $_POST["merchant"])
         {
             $data = array();
@@ -67,15 +89,23 @@ class DetailController extends ListPage
         $data["owner"] = ",".$_POST["owner"].",";
 
         if ($_POST["id"])
+        {
             $ret = M("transaction_detail")->where("id=".$_POST["id"])->save($data);
-        else
-            $ret = M("transaction_detail")->add($data);
+            if (!$ret)
+                $this->ajaxReturn(array("echo" => 1, "info" => "操作失败!"));
 
-        if (!$ret)
-            $this->ajaxReturn(array("echo" => 1, "info" => "操作失败!"));
+            if ($_POST["old_total"] != $_POST["total"])
+                M("transaction")->where("id=".$_POST["tid"])->setInc("total", ($_POST["total"] - $_POST["old_total"]));
+        }
+        else
+        {
+            $ret = M("transaction_detail")->add($data);
+            if (!$ret)
+                $this->ajaxReturn(array("echo" => 1, "info" => "操作失败!"));
+            M("transaction")->where("id=".$_POST["tid"])->setInc("total", $_POST["total"]);
+        }
 
         $this->ajaxReturn(array("echo" => 1, "info" => "操作成功!", "url" => U("Detail/index", "id=".$_POST["tid"])));
-
     }
 
     public function add_detail()
@@ -101,7 +131,7 @@ class DetailController extends ListPage
         $form->setElement("code", "autocomplete", "拼音码", array("bool" => "required",
             "input_val" => $detail["code"],
             "value" => $detail["code"],
-            "list" => parse_autocomplete("select code,name,merchant,unit_price,unit,label,id from goods"),
+            "list" => parse_autocomplete("select code,name,merchant,unit_price,unit,label,id,name as bname from goods"),
             "ext" => 'count="2"'));
         $form->setElement("name", "string", "名称", array("bool" => "required", "value" => $detail["name"]));
         $form->setElement("merchant", "string", "商家", array("bool" => "required", "value" => $detail["merchant"]));
@@ -116,17 +146,31 @@ class DetailController extends ListPage
         $form->setElement("gid", "hidden", "", array("value" => $detail["gid"]));
         $form->setElement("tid", "hidden", "", array("value" => $ts["id"]));
         $form->setElement("id", "hidden", "", array("value" => $detail["id"]));
+        $form->setElement("old_total", "hidden", "", array("value" => $detail["total"]));
         $form->setBtn("返回", U("index", "id=".$_GET["tid"]),
                  array("bool" => "blink","ext" => 'type="button"'));
         $form->set("js", "detail");
 
         if (isset($_GET["id"]))
-            $form->set("btn 0 txt", "编辑");
+            $form->set("btn 0 txt", "保存");
 
         $info = TransactionController::info($ts);
         $info->set("close_btn_down", 1);
 
+        // dump($form->fetch());
+
         $this->show($form->fetch());
+    }
+
+    public function del()
+    {
+        $total = SqlCol("select total from transaction_detail where id=".$_GET["id"]);
+        M("transaction")->where("id=".$_GET["tid"])->setDec("total", $total);
+        $ret =M("transaction_detail")->where("id=".$_GET["id"])->delete();
+        if (!$ret)
+            $this->ajaxReturn(array("echo" => 1, "info" => "删除失败!"));
+
+        $this->ajaxReturn(array("echo" => 1, "info" => "删除成功!", "url" => U("index", "id=".$_GET["tid"])));
     }
 
     public function detail_list($tid)
@@ -143,7 +187,8 @@ class DetailController extends ListPage
         $data->setField(array("name", "price", "quantity", "unit", "total", "merchant", "owner"));
         $data->set("data_field 6 run", "Index/get_userlist");
         $data->setOp("编辑", U("add_detail")."&tid=[tid]&id=[id]", array("tag" => "#body"));
-        $data->setOp("删除", U("del")."&id=[id]");
+        $data->setOp("删除", U("del")."&id=[id]&tid=[tid]", array("query" => true, "ext" => 'confirm="确定删除吗？"'));
+        // dump($data->fetch());
 
         return $data;
     }
@@ -151,19 +196,86 @@ class DetailController extends ListPage
     public function repay_list($tid)
     {
         $data = new SmallDataList("detail", "", 0, array("page" => array("size" => 10000)));
-        $dl = sqlAll("select t.id, t.tid, g.name as name, t.unit_price as price, t.quantity,
-                        g.unit as unit, t.total, g.merchant as merchant, owner
-                        from transaction_detail t, goods g where g.id=t.gid
-                        and t.tid=".$tid);
+        $dl = sqlAll("select id,tid,payer,amount from payment where tid=".$tid);
         $data->set("data_list", $dl);
         $data->set("close_op", 0);
         $data->setPage("total", count($dl));
         $data->setTitle(array("付款人", "付款金额"));
-        $data->setField(array("name", "price"));
-        $data->setOp("编辑", U("add_detail")."&tid=[tid]&id=[id]", array("tag" => "#body"));
-        $data->setOp("删除", U("del")."&id=[id]");
+        $data->setField(array("payer", "amount"));
+        $data->set("data_field 0 run", "Detail/getpayname");
+        $data->setOp("编辑", U("addPay")."&tid=[tid]&id=[id]", array("pop" => $this->getPop("editpay")));
+        $data->setOp("删除", U("delPay")."&id=[id]&tid=[tid]", array("query" => true, "ext" => 'confirm="确定删除吗？"'));
 
         return $data;
+    }
+
+    static public function getpayname($uid)
+    {
+        if (is_array($uid))
+            $uid = $uid["id"];
+        return sqlCol("select name from user where id=".$uid);
+    }
+
+    public function delPay()
+    {
+        $ret =M("payment")->where("id=".$_GET["id"])->delete();
+        if (!$ret)
+            $this->ajaxReturn(array("echo" => 1, "info" => "删除失败!"));
+
+        $this->ajaxReturn(array("echo" => 1, "info" => "删除成功!", "url" => U("index", "id=".$_GET["tid"])));
+    }
+
+    public function addPay()
+    {
+        if (IS_POST)
+        {
+            $data = array();
+            $data["tid"] = $_POST["tid"];
+            $data["payer"] = $_POST["payer"];
+            $data["amount"] = $_POST["amount"];
+
+            if ($_POST["id"])
+            {
+                $ret = M("payment")->where("id=".$_POST["id"])->save($data);
+            }
+            else
+                $ret = M("payment")->add($data);
+
+            if (!$ret)
+                $this->ajaxReturn(array("echo" => 1, "info" => "操作失败!"));
+
+            $this->ajaxReturn(array("echo" => 1, "info" => "操作成功!", "close" => 1, "url" => U("index", "id=".$_POST["tid"])));
+        }
+
+        $ts = SqlRow("select id,attender from transaction where id=".$_GET["tid"]);
+
+        $user = sqlAll("select name,id from user where id in (".
+                substr($ts["attender"], 1, strlen($ts["attender"]) - 2).")");
+
+        $userlist = "";
+        foreach ($user as $u)
+        {
+            $userlist .= $u["name"].",".$u["id"]."|";
+        }
+        $userlist = rtrim($userlist, "|");
+        // dump($userlist);
+
+        if ($_GET["id"])
+            $rs = SqlRow("select id,amount,payer from payment where id=".$_GET["id"]);
+
+        $form = new Form("", array("action" => U(), "class" => "form-horizontal kyo_form"));
+        $form->setElement("payer", "autocomplete", "付款人", array("bool" => "required",
+            "input_val" => self::getpayname($rs["payer"]),
+            "value" => $rs["payer"],
+            "list" => $userlist));
+        $form->setElement("amount", "num", "付款金额", array("bool" => "required", "addon" => "元", "value" => $rs["amount"]));
+        $form->setElement("tid", "hidden", "", array("value" => $ts["id"]));
+        $form->setElement("id", "hidden", "", array("value" => $rs["id"]));
+
+        $form->set("btn 0 txt", "保存");
+        // dump($form->fetch());
+
+        echo $form->fetch();
     }
 
     public function index()
@@ -189,7 +301,8 @@ class DetailController extends ListPage
             "custom_html" => $this->detail_list($_GET["id"])->fetch()
         ));
 
-        $repay_btn_html = '<a href="'.U("Transaction/index").'"><span class="glyphicon glyphicon-plus pull-right" style="margin-right:30px;" title="添加付款信息">&nbsp;添加付款</span></a>';
+        $repay_btn_html = '<a href="#" url="'.U("addPay", "tid=".$ts["id"]).'" pop="{'.$this->getPop("addpay").'}"><span class="glyphicon glyphicon-plus pull-right" style="margin-right:30px;" title="添加付款信息">&nbsp;添加付款</span></a>';
+
         $form->setElement("repay_group", "group", "付款列表".$repay_btn_html);
         $form->setElement("custom_repay", "custom", "", array("close_label" => 1,
             "element_cols" => "12",

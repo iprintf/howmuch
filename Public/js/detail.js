@@ -4,10 +4,8 @@ $("#code_id").change(function(){
     if ($(this).val().length == 0)
         return;
 
-
     var v = $("#code_input").val().split(",");
     $("#code_input").val(v[0]);
-    $("#name_id").val(v[1]);
 
     v = $(this).val().split(",");
 
@@ -16,9 +14,14 @@ $("#code_id").change(function(){
     $("#unit_id").val(v[2]);
     $("#label_id").val(v[3]);
     $("#gid_id").val(v[4]);
+    $("#name_id").val(v[5]);
 
     $(this).val($("#code_input").val());
 
+});
+
+$("#code_input").change(function(){
+    $("#code_id").val($(this).val());
 });
 
 $("#quantity_id").change(function(){
