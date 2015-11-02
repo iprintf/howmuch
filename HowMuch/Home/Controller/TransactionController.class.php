@@ -96,7 +96,7 @@ class TransactionController extends ListPage
             if ($ret)
                 $this->ajaxReturn(array("info" => "添加成功, 但添加用户记录失败!", "echo" => 1, "url" => U("index")));
 
-            $this->ajaxReturn(array("info" => "添加成功!", "echo" => 1, "url" => U("Detail/index", "id=".$tid), "tag" => "#body"));
+            $this->ajaxReturn(array("info" => "添加成功!", "echo" => 1, "url" => U("Detail/index", "id=".$tid)));
         }
     }
 
@@ -136,9 +136,9 @@ class TransactionController extends ListPage
     {
         if (sqlCol("select id from transaction_detail where tid=".$_GET["id"]))
             $this->ajaxReturn(array("echo" => 1, "info" => "不能删除有明细的交易!"));
-        M("transaction")->where("id=".$_GET["id"])->delete();;
         M("balance")->where("tid=".$_GET["id"])->delete();
-        $this->ajaxReturn(array("echo" => 1, "info" => "删除成功!", "url" => U("index"), "tag" => "#body"));
+        M("transaction")->where("id=".$_GET["id"])->delete();;
+        $this->ajaxReturn(array("echo" => 1, "info" => "删除成功!", "url" => U("index")));
     }
 
     static public function info($ts)

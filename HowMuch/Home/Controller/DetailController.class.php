@@ -219,7 +219,7 @@ class DetailController extends ListPage
             $data->set("close_down_page", 1);
             return $data;
         }
-        $data->setOp("编辑", U("addPay")."&tid=[tid]&id=[id]", array("pop" => $this->getPop("editpay")));
+        $data->setOp("编辑", U("addPay")."&tid=[tid]&id=[id]", array("pop" => self::getPop("editpay")));
         $data->setOp("删除", U("delPay")."&id=[id]&tid=[tid]", array("query" => true, "ext" => 'confirm="确定删除吗？"'));
 
         return $data;
