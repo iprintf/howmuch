@@ -264,7 +264,7 @@ class DataList
 
         if (!$this->list["use_sql"])
         {
-//             dump(session("find_where"));
+            // dump(session("find_where"));
 //             dump($this->list["where"]);
             $this->list["data_list"] = $this->obj
                         ->where(session("find_where"))
@@ -272,7 +272,7 @@ class DataList
                         ->order(session("orderBy"))
                         ->page(I("get.p", 1).','.$this->list["page"]["size"])
                         ->select();
-//             dump($this->obj->getLastSql());
+            // dump($this->obj->getLastSql());
 //             exit(0);
 
             $this->list["page"]["total"] = $this->obj->where(session("find_where"))

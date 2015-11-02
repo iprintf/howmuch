@@ -53,11 +53,11 @@ class DetailController extends ListPage
             || $goods["unit_price"] != $_POST["unit_price"]
             || $goods["label"] != $_POST["label"]))
         {
-            $ret = M("goods")->where("id=".$goods["id"])
-                ->setField(
-                    array("unit_price", $_POST["unit_price"]),
-                    array("unit", $_POST["unit"]),
-                    array("label", $_POST["label"]));
+            $data = array();
+            $data["unit_price"] = $_POST["unit_price"];
+            $data["unit"] = $_POST["unit"];
+            $data["label"] = $_POST["label"];
+            $ret = M("goods")->where("id=".$goods["id"])->save($data);
             if (!$ret)
                 $this->ajaxReturn(array("echo" => 1, "info" => "更新商品失败!"));
         }
@@ -96,6 +96,7 @@ class DetailController extends ListPage
 
             if ($_POST["old_total"] != $_POST["total"])
                 M("transaction")->where("id=".$_POST["tid"])->setInc("total", ($_POST["total"] - $_POST["old_total"]));
+            SqlAll(" call update_balance(".$_POST["tid"]."); ");
         }
         else
         {
@@ -103,6 +104,7 @@ class DetailController extends ListPage
             if (!$ret)
                 $this->ajaxReturn(array("echo" => 1, "info" => "操作失败!"));
             M("transaction")->where("id=".$_POST["tid"])->setInc("total", $_POST["total"]);
+            SqlAll(" call update_balance(".$_POST["tid"].");");
         }
 
         $this->ajaxReturn(array("echo" => 1, "info" => "操作成功!", "url" => U("Detail/index", "id=".$_POST["tid"])));
@@ -170,10 +172,12 @@ class DetailController extends ListPage
         if (!$ret)
             $this->ajaxReturn(array("echo" => 1, "info" => "删除失败!"));
 
+        SqlAll("call update_balance(".$_GET["tid"].");");
+
         $this->ajaxReturn(array("echo" => 1, "info" => "删除成功!", "url" => U("index", "id=".$_GET["tid"])));
     }
 
-    public function detail_list($tid)
+    static public function detail_list($tid, $info = false)
     {
         $data = new SmallDataList("detail", "", 0, array("page" => array("size" => 10000)));
         $dl = sqlAll("select t.id, t.tid, g.name as name, t.unit_price as price, t.quantity,
@@ -186,6 +190,12 @@ class DetailController extends ListPage
         $data->setTitle(array("名称", "单价", "数量", "单位", "金额", "商家", "所属人"));
         $data->setField(array("name", "price", "quantity", "unit", "total", "merchant", "owner"));
         $data->set("data_field 6 run", "Index/get_userlist");
+        if ($info)
+        {
+            $data->set("close_op", 1);
+            $data->set("close_down_page", 1);
+            return $data;
+        }
         $data->setOp("编辑", U("add_detail")."&tid=[tid]&id=[id]", array("tag" => "#body"));
         $data->setOp("删除", U("del")."&id=[id]&tid=[tid]", array("query" => true, "ext" => 'confirm="确定删除吗？"'));
         // dump($data->fetch());
@@ -193,16 +203,22 @@ class DetailController extends ListPage
         return $data;
     }
 
-    public function repay_list($tid)
+    static public function repay_list($tid, $info = false)
     {
         $data = new SmallDataList("detail", "", 0, array("page" => array("size" => 10000)));
-        $dl = sqlAll("select id,tid,payer,amount from payment where tid=".$tid);
+        $dl = sqlAll("select id,tid,uid,amount from payment where tid=".$tid);
         $data->set("data_list", $dl);
         $data->set("close_op", 0);
         $data->setPage("total", count($dl));
         $data->setTitle(array("付款人", "付款金额"));
-        $data->setField(array("payer", "amount"));
+        $data->setField(array("uid", "amount"));
         $data->set("data_field 0 run", "Detail/getpayname");
+        if ($info)
+        {
+            $data->set("close_op", 1);
+            $data->set("close_down_page", 1);
+            return $data;
+        }
         $data->setOp("编辑", U("addPay")."&tid=[tid]&id=[id]", array("pop" => $this->getPop("editpay")));
         $data->setOp("删除", U("delPay")."&id=[id]&tid=[tid]", array("query" => true, "ext" => 'confirm="确定删除吗？"'));
 
@@ -212,7 +228,7 @@ class DetailController extends ListPage
     static public function getpayname($uid)
     {
         if (is_array($uid))
-            $uid = $uid["id"];
+            $uid = $uid["uid"];
         return sqlCol("select name from user where id=".$uid);
     }
 
@@ -221,6 +237,8 @@ class DetailController extends ListPage
         $ret =M("payment")->where("id=".$_GET["id"])->delete();
         if (!$ret)
             $this->ajaxReturn(array("echo" => 1, "info" => "删除失败!"));
+
+        SqlAll("call update_balance(".$_GET["tid"].");");
 
         $this->ajaxReturn(array("echo" => 1, "info" => "删除成功!", "url" => U("index", "id=".$_GET["tid"])));
     }
@@ -231,7 +249,7 @@ class DetailController extends ListPage
         {
             $data = array();
             $data["tid"] = $_POST["tid"];
-            $data["payer"] = $_POST["payer"];
+            $data["uid"] = $_POST["uid"];
             $data["amount"] = $_POST["amount"];
 
             if ($_POST["id"])
@@ -243,6 +261,8 @@ class DetailController extends ListPage
 
             if (!$ret)
                 $this->ajaxReturn(array("echo" => 1, "info" => "操作失败!"));
+
+            SqlAll("call update_balance(".$_POST["tid"].");");
 
             $this->ajaxReturn(array("echo" => 1, "info" => "操作成功!", "close" => 1, "url" => U("index", "id=".$_POST["tid"])));
         }
@@ -261,12 +281,12 @@ class DetailController extends ListPage
         // dump($userlist);
 
         if ($_GET["id"])
-            $rs = SqlRow("select id,amount,payer from payment where id=".$_GET["id"]);
+            $rs = SqlRow("select id,amount,uid from payment where id=".$_GET["id"]);
 
         $form = new Form("", array("action" => U(), "class" => "form-horizontal kyo_form"));
-        $form->setElement("payer", "autocomplete", "付款人", array("bool" => "required",
-            "input_val" => self::getpayname($rs["payer"]),
-            "value" => $rs["payer"],
+        $form->setElement("uid", "autocomplete", "付款人", array("bool" => "required",
+            "input_val" => self::getpayname($rs["uid"]),
+            "value" => $rs["uid"],
             "list" => $userlist));
         $form->setElement("amount", "num", "付款金额", array("bool" => "required", "addon" => "元", "value" => $rs["amount"]));
         $form->setElement("tid", "hidden", "", array("value" => $ts["id"]));
@@ -276,6 +296,15 @@ class DetailController extends ListPage
         // dump($form->fetch());
 
         echo $form->fetch();
+    }
+
+    public function endPay()
+    {
+        $data = array();
+        $data["state"] = 2;
+        $data["finish_time"] = date("Y-m-d H:i:s");
+        M("transaction")->where("id=".$_GET["id"])->save($data);
+        $this->redirect("Transaction/index");
     }
 
     public function index()
@@ -310,11 +339,9 @@ class DetailController extends ListPage
         ));
 
         $form->set("btn 0 txt", "结账");
-        $form->set("btn 0 url", U("add_detail")."&tid=".$ts["id"]);
-        $form->set("btn 0 tag", "#body");
-        $form->set("btn 0 ext", 'type="button"');
-        // $form->setBtn("结账", U("Transaction/index"), array("bool" => 'blink'));
-        // $form->setBtn("返回列表", U("Transaction/index"), array("bool" => 'blink'));
+        $form->set("btn 0 url", U("endPay")."&id=".$ts["id"]);
+        $form->set("btn 0 bool", "blink");
+        $form->set("btn 0 ext", 'type="button" confirm="结账后不能再对交易进行操作，确定结账吗？"');
 
         $html .= $form->fetch();
 

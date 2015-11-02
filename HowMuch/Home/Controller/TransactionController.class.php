@@ -39,6 +39,28 @@ class TransactionController extends ListPage
         $this->display(false, "Home@Public/index");
     }
 
+    public function balance_add_user($attender, $tid)
+    {
+        $obj = M("balance");
+        $data = array();
+        $data["tid"] = $tid;
+        $data["uid"] = 0;
+        $data["amount"] = 0;
+
+        $attender = rtrim($attender, ",");
+        $attender = ltrim($attender, ",");
+        $user = explode(",", $attender);
+        foreach ($user as $uid)
+        {
+            $data["uid"] = $uid;
+            $ret = $obj->add($data);
+            if (!$ret)
+                return 1;
+        }
+
+        return 0;
+    }
+
     public function post()
     {
         $data = array();
@@ -54,7 +76,13 @@ class TransactionController extends ListPage
             if (!$ret)
                 $this->ajaxReturn(array("info" => "编辑失败!", "echo" => 1));
 
-            $this->ajaxReturn(array("info" => "编辑成功!", "echo" => 1, "url" => U("index")));
+            M("balance")->where("tid=".$_POST["id"])->delete();
+            $ret = $this->balance_add_user($data["attender"], $_POST["id"]);
+            if ($ret)
+                $this->ajaxReturn(array("info" => "编辑成功, 但添加用户记录失败!", "echo" => 1, "url" => U("index")));
+            SqlAll("call update_balance(".$_POST["id"].");");
+
+            $this->ajaxReturn(array("info" => "编辑成功!", "echo" => 1, "url" => U("Detail/index", "id=".$_POST["id"])));
         }
         else
         {
@@ -62,8 +90,13 @@ class TransactionController extends ListPage
             $ret = $obj->add($data);
             if (!$ret)
                 $this->ajaxReturn(array("info" => "添加失败!", "echo" => 1));
+            $tid = $ret;
 
-            $this->ajaxReturn(array("info" => "添加成功!", "echo" => 1, "url" => U("add"), "tag" => "#body"));
+            $ret = $this->balance_add_user($data["attender"], $ret);
+            if ($ret)
+                $this->ajaxReturn(array("info" => "添加成功, 但添加用户记录失败!", "echo" => 1, "url" => U("index")));
+
+            $this->ajaxReturn(array("info" => "添加成功!", "echo" => 1, "url" => U("Detail/index", "id=".$tid), "tag" => "#body"));
         }
     }
 
@@ -88,8 +121,7 @@ class TransactionController extends ListPage
         $form->setElement("comment", "textarea", "备注", array("value" => $transaction["comment"]));
         $form->setElement("id", "hidden", "", array("value" => $transaction["id"]));
         //$form->setBtn("记账", "", array("ext" => 'onclick="location.href=\''.U("index").'\'"'));
-        if ($transaction)
-            $form->set("btn 0 txt", "编辑");
+        $form->set("btn 0 txt", "保存");
         if ($_GET["did"])
             $url = U("Detail/index", "id=".$transaction["id"]);
         else
@@ -105,6 +137,7 @@ class TransactionController extends ListPage
         if (sqlCol("select id from transaction_detail where tid=".$_GET["id"]))
             $this->ajaxReturn(array("echo" => 1, "info" => "不能删除有明细的交易!"));
         M("transaction")->where("id=".$_GET["id"])->delete();;
+        M("balance")->where("tid=".$_GET["id"])->delete();
         $this->ajaxReturn(array("echo" => 1, "info" => "删除成功!", "url" => U("index"), "tag" => "#body"));
     }
 
@@ -119,7 +152,21 @@ class TransactionController extends ListPage
         $form->setElement("edit_group", "group", $ts["name"].$return_btn_html);
         $form->setInfoElement("info_create_time", "创建时间", $ts["create_time"]);
         $form->setInfoElement("info_total", "总&nbsp;&nbsp;金&nbsp;&nbsp;额", $ts["total"]." 元");
-        $form->setInfoElement("info_attender","参&nbsp;&nbsp;与&nbsp;&nbsp;者", $userlist);
+        $ulist = SqlAll("select u.name,b.amount from balance b, user u where b.uid=u.id and tid=".$ts["id"]);
+        $u = "";
+        $f = 1;
+        foreach ($ulist as $r)
+        {
+            if ($f)
+            {
+                $u .= '<span style="display:inline-block;width:80px;">'.$r["name"].'</span> <span style="color:red"> '.$r["amount"].' </span><br />';
+                $f = 0;
+            }
+            else
+                $u .= '<span style="margin-left:75px;display:inline-block;width:80px;">'.$r["name"].'</span> <span style="color:red"> '.$r["amount"].' </span><br />';
+        }
+        $u = rtrim($u, ", ");
+        $form->setInfoElement("info_attender","参&nbsp;&nbsp;与&nbsp;&nbsp;者", $u);
         //$form->setInfoElement("remark", "备&emsp;&emsp;注", $row["comment"]);
         $form->setElement("info_remark", "static", "", array("close_label" => 1,
             "value" => $ts["comment"],

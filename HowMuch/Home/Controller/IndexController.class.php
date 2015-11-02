@@ -37,6 +37,11 @@ class IndexController extends ListPage
                     $title = "编辑商品";
                 $pop = "w:550,h:480,n:'goodsedit',t:".$title;
         	    break;
+        	case "info":
+                if (!$title)
+                    $title = "详细信息";
+                $pop = "w:650,h:580,n:'transinfo',t:".$title;
+        	    break;
         	default:
         	    break;
         }
@@ -65,14 +70,116 @@ class IndexController extends ListPage
         $this->redirect("Transaction/index");
     }
 
-    public function did_transaction()
+    static public function parse_find_date($name, & $sdate, & $edate)
     {
+        if (!$sdate)
+            $sdate = date("Y-m-d");
+        if (!$edate)
+            $edate = date("Y-m-d", strtotime("+1 day", strtotime($sdate)));
 
+        if (IS_POST && I("get.find"))
+        {
+            if ($_POST[$name])
+            {
+                $find_date = explode(",", $_POST[$name]);
+                $_POST[$name] = "";
+                $sdate = $find_date[0];
+                $edate = $find_date[1];
+            }
+        }
+        else
+        {
+            if (I("get.sdate"))
+                $sdate = I("get.sdate");
+
+            if (I("get.edate"))
+                $edate = I("get.edate");
+        }
+    }
+
+    static public function show_attender($data)
+    {
+        $user = SqlAll("select u.name,b.amount from balance b, user u where b.uid=u.id and tid=".$data["id"]);
+
+        $u = "";
+        foreach ($user as $r)
+        {
+            $u .= $r["name"].'(<span style="color:red">'.$r["amount"].'</span>), ';
+        }
+        $u = rtrim($u, ", ");
+
+        return $u;
+    }
+
+    public function info()
+    {
+        $ts = SqlRow("select * from transaction where id=".$_GET["id"]);
+
+        $form = new Form("", array("cols" => 2, "class" => "form-horizontal kyo_form"));
+        $form->setElement("info_create_time", "static", "创建时间", array("value" => $ts["create_time"]));
+        $form->setElement("info_finish_time", "static", "结账时间", array("value" => $ts["finish_time"]));
+        $form->setElement("info_total", "static", "总&nbsp;&nbsp;金&nbsp;&nbsp;额", array("value" => $ts["total"]." 元"));
+        $ulist = SqlAll("select u.name,b.amount from balance b, user u where b.uid=u.id and tid=".$ts["id"]);
+        $u = "";
+        foreach ($ulist as $r)
+        {
+            $u .= '<span style="display:inline-block;width:80px;">'.$r["name"].'</span> <span style="color:red"> '.$r["amount"].' </span><br />';
+        }
+        $u = rtrim($u, ", ");
+        $form->setElement("info_attender", "static", "参&nbsp;&nbsp;与&nbsp;&nbsp;者", array("value" => $u));
+        $form->setElement("info_remark", "static", "备注", array("close_label" => 1,
+            "value" => $ts["comment"],
+            "pclass" => "col-ss-10 col-xs-10 col-sm-10 col-md-10 col-ss-offset-1 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 kyo_element_info"));
+        $form->set("close_btn_down", 1);
+
+        echo $form->fetch();
+        echo "<br />";
+        echo DetailController::detail_list($ts["id"], true)->fetch();
+        echo "<br />";
+        echo DetailController::repay_list($ts["id"], true)->fetch();
     }
 
     public function end_transaction()
     {
+        $this->parse_find_date("date", $sdate, $edate);
 
+        if (I("get.find") && IS_POST)
+        {
+            if (I("post.attender"))
+            {
+                $_POST["search_type"] = "attender";
+                $_POST["search_key"] = ",".$_POST["attender"].",";
+                $_POST["attender"] = "";
+            }
+        }
+
+        $this->setNav("&nbsp;->&nbsp;旧账查询");
+        $this->mainPage("transaction");
+
+        $this->setFind("item finish_time", array("name" => "finish_time", "type" => "date",
+                        "sval" => $sdate, "eval" => $edate));
+        $this->setFind("item 1", array("name" => "search_type", "type" => "select",
+                "default" => "交易名称", "defval" => "name",
+                "list" => parse_select_list("array", array("attender"), array("参与者"))));
+
+        $list = parse_select_list("select id,name from user");
+        $this->setFind("item attender", array("name" => "attender", "type" => "select",
+                "class" => "hidden", "me" => "me",
+                "list" => $list, "default" => "请选择参与者"));
+
+        //设置列表标题
+        $this->setTitle(array("交易名称", "交易金额", "参与者", "结账时间"));
+        //设置列表字段名
+        $this->setField(array("name", "total", "attender", "finish_time"));
+        $this->setData("data_field 2 run", "Index/show_attender");
+        $this->setData("where", "state=2");
+        $this->setField("name", array("name" => "0", "url" => U("Index/info")."&id=[id]",
+                "pop" => $this->getPop("info", "[name] 详细信息")));
+        $this->setData("subtotal field", array(1));
+        $this->setData("close_chkall", 1);
+        $this->setData("close_op", 1);
+
+        $this->display();
     }
 
     public function user()

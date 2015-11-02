@@ -592,7 +592,9 @@ autobodysize();
         var keyval = formObj.find("input[name='search_key']:visible").val();
         var typeval = formObj.find("select[name='search_type']:visible").val();
 
-        keyval = keyval.replace(/ /g, "");
+
+        if (typeof(keyval) != "undefined")
+            keyval = keyval.replace(/ /g, "");
         formObj.find("input[name='search_key']:visible").val(keyval);
 
         if (typeval == 0 && keyval)
