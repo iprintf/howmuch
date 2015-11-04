@@ -242,8 +242,8 @@ class IndexController extends ListPage
 
 		$this->setElement("label", "string", "标签", array("bool" => "required", "placeholder" => "请输入标签 标签以逗号分隔"));
 		$this->setElement("unit_price", "num", "单价", array("bool" => "required", "addon" => "元"));
-		$this->setElement("unit", "select", "单位", array("bool" => "required",
-            "list" => parse_select_list("array", array("斤", "公斤", "个", "只"), array("斤", "公斤", "个", "只"))));
+		$this->setElement("unit", "text", "单位", array("bool" => "required"));
+            // "list" => parse_select_list("array", array("斤", "公斤", "个", "只"), array("斤", "公斤", "个", "只"))));
 		$this->setElement("merchant", "string", "商家", array("bool" => "required"));
 
 		//$this->setElement("unit_price", "num", "商品单位", array("bool" => "required"));
